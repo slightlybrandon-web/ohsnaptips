@@ -2,8 +2,7 @@
 
 backend:
   name: github
-  repo: YOUR-GITHUB-USERNAME/ohsnaptips   # <-- change this to your repo, e.g. brandonlara/ohsnaptips
-
+  repo: slightlybrandon-web/ohsnaptips
 site_url: https://ohsnaptips.com
 display_url: https://ohsnaptips.com
 
