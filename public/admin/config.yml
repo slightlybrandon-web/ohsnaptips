@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/ohsnaptips   # <-- change this to your repo, e.g. brandonlara/ohsnaptips
+
+site_url: https://ohsnaptips.com
+display_url: https://ohsnaptips.com
+
+# Uploaded screenshots go here and are served from ohsnaptips.com/uploads/...
+media_folder: /public/uploads
+public_folder: /uploads
+
+collections:
+  - name: guides
+    label: Guides
+    label_singular: Guide
+    folder: /guides
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: YouTube link, name: youtube, widget: string, required: false, hint: "Paste your video link. Leave blank for a written-only article." }
+      - { label: Short summary, name: summary, widget: text, required: false, hint: "Shown on the home page and in Google results (max 300 characters)." }
+      - { label: Date, name: date, widget: datetime, type: date, date_format: "YYYY-MM-DD", time_format: false, default: "{{now}}" }
+      - { label: "Draft (keep hidden from the site)", name: draft, widget: boolean, default: false, required: false }
+      - { label: Guide, name: body, widget: richtext, hint: "Use the numbered-list button for steps, the image button to upload screenshots." }
