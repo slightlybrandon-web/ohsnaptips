@@ -114,17 +114,20 @@ export function renderMarkdown(src = '') {
 export const fmtDate = (iso) =>
   new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 
+export const ytWatch = (id) => `https://www.youtube.com/watch?v=${esc(id)}`;
+
 export function guideCard(g) {
-  const img = g.youtube_id
-    ? `<img loading="lazy" src="${thumb(g.youtube_id)}" alt="">`
-    : `<div class="noimg" aria-hidden="true">Tip</div>`;
-  return `<a class="card" href="/guide/${esc(g.slug)}/">${img}<div class="card-body"><h3>${esc(g.title)}</h3><p>${esc(g.summary)}</p><span class="meta">${fmtDate(g.created_at)}${g.youtube_id ? ' · Video' : ''}</span></div></a>`;
+  const media = g.youtube_id
+    ? `<div class="thumb"><img loading="lazy" src="${thumb(g.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
+    : `<div class="thumb noimg" aria-hidden="true"><img loading="lazy" src="/img/burst.png" alt=""></div>`;
+  return `<a class="card" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><h3>${esc(g.title)}</h3>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}<span class="meta">${fmtDate(g.created_at)} · ${g.youtube_id ? 'Video + guide' : 'Guide'}</span></div></a>`;
 }
 
 export function page({ env, origin, title, description = '', path = '/', image = '', body, extraHead = '', type = 'website' }) {
   const site = env.SITE_NAME || 'Oh Snap Tips';
   const fullTitle = path === '/' ? `${site} – ${title}` : `${title} | ${site}`;
   const yt = env.YOUTUBE_CHANNEL_URL || '#';
+  const share = image || `${origin}/og-image.png`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -132,23 +135,33 @@ export function page({ env, origin, title, description = '', path = '/', image =
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description)}">
+<meta name="theme-color" content="#000000">
 <link rel="canonical" href="${esc(origin + path)}">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="${esc(site)}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${esc(origin + path)}">
-${image ? `<meta property="og:image" content="${esc(image)}"><meta name="twitter:card" content="summary_large_image">` : ''}
+<meta property="og:image" content="${esc(share)}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 ${extraHead}
 </head>
 <body>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/">Oh Snap <span>Tips</span></a>
-  <nav><a href="/#guides">Guides</a><a class="btn" href="${esc(yt)}" target="_blank" rel="noopener">Subscribe on YouTube</a></nav>
+  <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="551" height="85"></a>
+  <nav><a href="/#guides">Guides</a><a class="btn btn-sm" href="${esc(yt)}" target="_blank" rel="noopener"><span class="long">Subscribe on </span>YouTube</a></nav>
 </div></header>
 <main>${body}</main>
-<footer class="site-footer"><div class="wrap"><p>© ${new Date().getFullYear()} ${esc(site)} · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a></p></div></footer>
+<footer class="site-footer"><div class="wrap">
+  <img src="/img/wordmark.png" alt="${esc(site)}" width="551" height="85">
+  <p>Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · © ${new Date().getFullYear()}</p>
+</div></footer>
 </body>
 </html>`;
 }

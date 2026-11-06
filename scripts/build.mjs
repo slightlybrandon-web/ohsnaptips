@@ -3,7 +3,7 @@
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, slugify, youtubeId } from './util.js';
+import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, slugify, youtubeId, ytWatch } from './util.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
@@ -64,19 +64,37 @@ cpSync(join(root, 'public'), out, { recursive: true });
 const write = (p, c) => { mkdirSync(dirname(join(out, p)), { recursive: true }); writeFileSync(join(out, p), c); };
 
 // Home
+const yt = env.YOUTUBE_CHANNEL_URL;
 const latest = live.find((g) => g.youtube_id) || live[0];
 const rest = live.filter((g) => g !== latest);
-const hero = latest
-  ? `<section class="hero"><div class="wrap hero-grid">
+
+const hero = `<section class="hero"><div class="wrap hero-grid">
+  <div class="hero-copy">
+    <span class="kicker">How-to guides + video</span>
+    <h1>Straight &amp; to the point.</h1>
+    <p>Quick tech how-tos you can watch and follow along. Every guide comes with a video and clear, numbered steps.</p>
+    <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a><a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a></div>
+  </div>
+  <div class="hero-art"><img src="/img/hero.png" alt="A finger snap with a blue burst reading Oh Snap Tips" width="616" height="826"></div>
+</div></section>`;
+
+const featured = latest
+  ? `<section class="wrap latest"><span class="kicker">Latest guide</span><div class="latest-grid">
       <div>${latest.youtube_id ? videoEmbed(latest.youtube_id, latest.title) : ''}</div>
-      <div class="hero-text"><span class="kicker">Latest</span><h1>${esc(latest.title)}</h1><p>${esc(latest.summary)}</p>
-      <a class="btn" href="/guide/${esc(latest.slug)}/">Read the full guide</a></div></div></section>`
-  : `<section class="hero"><div class="wrap"><h1>Oh Snap Tips</h1><p>Guides and videos are coming soon.</p></div></section>`;
-const grid = rest.length ? `<section id="guides" class="wrap"><h2 class="section-title">All guides</h2><div class="grid">${rest.map(guideCard).join('')}</div></section>` : '';
+      <div class="latest-copy"><h2><a href="/guide/${esc(latest.slug)}/">${esc(latest.title)}</a></h2>
+      ${latest.summary ? `<p>${esc(latest.summary)}</p>` : ''}
+      <a class="btn" href="/guide/${esc(latest.slug)}/">Read the guide</a></div>
+    </div></section>`
+  : `<section class="wrap latest"><h2 class="section-title">Guides are on the way</h2><p>New how-to guides and videos are coming soon.</p></section>`;
+
+const grid = rest.length
+  ? `<section id="guides" class="wrap"><h2 class="section-title">All guides</h2><div class="grid">${rest.map(guideCard).join('')}</div></section>`
+  : '<div id="guides"></div>';
+
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
-  description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips.',
-  image: latest && latest.youtube_id ? thumb(latest.youtube_id) : '', body: hero + grid,
+  description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
+  body: hero + featured + grid,
 }));
 
 // Guide pages
@@ -87,8 +105,8 @@ for (const g of live) {
         '@context': 'https://schema.org', '@type': 'VideoObject', name: g.title, description: g.summary || g.title,
         thumbnailUrl: thumb(g.youtube_id), uploadDate: g.created_at, embedUrl: `https://www.youtube.com/embed/${g.youtube_id}`,
       }).replace(/</g, '\\u003c')}</script>` : '';
-  const body = `<article class="wrap prose"><p class="crumbs"><a href="/">All guides</a></p><h1>${esc(g.title)}</h1>
-    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title) : ''}${renderMarkdown(g.body)}</article>
+  const body = `<article class="wrap prose"><p class="crumbs"><a href="/">&larr; All guides</a></p><h1>${esc(g.title)}</h1>
+    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}</article>
     ${more.length ? `<section class="wrap"><h2 class="section-title">More guides</h2><div class="grid">${more.map(guideCard).join('')}</div></section>` : ''}`;
   write(`guide/${g.slug}/index.html`, page({
     env, origin, path: `/guide/${g.slug}/`, title: g.title, description: g.summary || `${g.title} – step-by-step guide.`,
