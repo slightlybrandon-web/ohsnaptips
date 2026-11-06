@@ -75,7 +75,7 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
     <p>Quick tech how-tos you can watch and follow along. Every guide comes with a video and clear, numbered steps.</p>
     <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a><a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a></div>
   </div>
-  <div class="hero-art"><img src="/img/hero.png" alt="A finger snap with a blue burst reading Oh Snap Tips" width="616" height="826"></div>
+  <div class="hero-art"><img src="/img/hero.png" alt="Oh Snap Tips logo: a speech bubble with a lightbulb" width="840" height="840"></div>
 </div></section>`;
 
 const featured = latest

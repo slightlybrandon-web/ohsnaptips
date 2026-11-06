@@ -148,18 +148,18 @@ export function page({ env, origin, title, description = '', path = '/', image =
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 ${extraHead}
 </head>
 <body>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="551" height="85"></a>
+  <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="701" height="114"></a>
   <nav><a href="/#guides">Guides</a><a class="btn btn-sm" href="${esc(yt)}" target="_blank" rel="noopener"><span class="long">Subscribe on </span>YouTube</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
-  <img src="/img/wordmark.png" alt="${esc(site)}" width="551" height="85">
+  <img src="/img/wordmark.png" alt="${esc(site)}" width="701" height="114">
   <p>Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · © ${new Date().getFullYear()}</p>
 </div></footer>
 </body>

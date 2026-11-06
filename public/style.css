@@ -11,7 +11,7 @@
   --blue-tint: #eaf0ff;
   --black: #000;
   --radius: 14px;
-  --display: "Courier Prime", "American Typewriter", "Courier New", monospace;
+  --display: "Inter", system-ui, sans-serif;
   --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 * { box-sizing: border-box; }
@@ -54,11 +54,11 @@ nav a:hover { color: #9db8ff; }
 .hero-copy { align-self: center; padding-bottom: 3.5rem; }
 .kicker { font: 700 .78rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--blue); }
 .hero .kicker { color: #7fa2ff; }
-.hero h1 { font: 700 clamp(2.4rem, 5.2vw, 4rem)/1.05 var(--display); letter-spacing: -.02em; margin: 1rem 0 1.1rem; }
+.hero h1 { font: 800 clamp(2.4rem, 5.2vw, 4rem)/1.05 var(--display); letter-spacing: -.04em; margin: 1rem 0 1.1rem; }
 .hero p { color: #c2c8d8; font-size: 1.15rem; max-width: 34ch; margin: 0 0 1.8rem; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: .8rem; }
 .hero-art { display: flex; justify-content: center; align-self: end; }
-.hero-art img { display: block; width: auto; max-height: 470px; }
+.hero-art img { display: block; width: auto; max-height: 400px; margin-bottom: 2rem; }
 
 /* ---------- latest ---------- */
 .latest { padding-top: 3.5rem; }
