@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, ex
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, slugify, youtubeId, ytWatch } from './util.js';
+import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, slugify, youtubeId, ytWatch, tipBox } from './util.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
@@ -131,7 +131,7 @@ for (const g of live) {
         thumbnailUrl: thumb(g.youtube_id), uploadDate: g.created_at, embedUrl: `https://www.youtube.com/embed/${g.youtube_id}`,
       }).replace(/</g, '\\u003c')}</script>` : '';
   const body = `<article class="wrap prose"><p class="crumbs"><a href="/">&larr; All guides</a></p><h1>${esc(g.title)}</h1>
-    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}</article>
+    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}${tipBox()}</article>
     ${more.length ? `<section class="wrap"><h2 class="section-title">More guides</h2><div class="grid">${more.map(guideCard).join('')}</div></section>` : ''}`;
   write(`guide/${g.slug}/index.html`, page({
     env, origin, path: `/guide/${g.slug}/`, title: g.title, description: g.summary || `${g.title} – step-by-step guide.`,
@@ -149,7 +149,7 @@ for (const c of liveClasses) {
       }).replace(/</g, '\\u003c')}</script>` : '';
   const body = `<article class="wrap prose"><p class="crumbs"><a href="/#classes">&larr; All classes</a></p>
     <span class="badge">Class${c.length ? ' · ' + esc(c.length) : ''}</span><h1>${esc(c.title)}</h1>
-    <p class="meta">${fmtDate(c.created_at)}</p>${c.youtube_id ? videoEmbed(c.youtube_id, c.title) + `<p class="watch-yt"><a href="${ytWatch(c.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(c.body)}</article>
+    <p class="meta">${fmtDate(c.created_at)}</p>${c.youtube_id ? videoEmbed(c.youtube_id, c.title) + `<p class="watch-yt"><a href="${ytWatch(c.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(c.body)}${tipBox()}</article>
     ${more.length ? `<section class="wrap"><h2 class="section-title">More classes</h2><div class="grid">${more.map(classCard).join('')}</div></section>` : ''}`;
   write(`class/${c.slug}/index.html`, page({
     env, origin, path: `/class/${c.slug}/`, title: c.title, description: c.summary || `${c.title} – full class.`,

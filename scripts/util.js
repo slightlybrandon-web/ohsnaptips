@@ -167,11 +167,14 @@ ${extraHead}
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
   <img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136">
-  <p>Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · © ${new Date().getFullYear()}</p>
+  <p>Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · <a href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Tip jar</a> · © ${new Date().getFullYear()}</p>
 </div></footer>
 </body>
 </html>`;
 }
+
+export const TIP_URL = 'https://buymeacoffee.com/brandonlara';
+export const tipBox = () => `<div class="tipjar"><p><strong>Was this helpful?</strong> If it saved you time, you can say thanks with a tip. It helps me keep making these.</p><a class="btn btn-sm" href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Leave a tip</a></div>`;
 
 export const html = (body, status = 200, cache = 'public, max-age=60, s-maxage=60') =>
   new Response(body, { status, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': cache } });

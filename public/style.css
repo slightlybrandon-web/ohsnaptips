@@ -154,3 +154,6 @@ nav a:hover { color: #9db8ff; }
 .search svg { width: 22px; height: 22px; flex: none; fill: none; stroke: #5a6376; stroke-width: 2.2; stroke-linecap: round; }
 .search input { flex: 1; border: 0; outline: 0; background: transparent; font: 500 1.05rem/1 var(--sans); color: var(--ink); padding: .95rem 0; min-width: 0; }
 .nores { text-align: center; color: #5a6376; margin: 1.6rem 0 0; }
+
+.tipjar { margin: 2.5rem 0 0; padding: 1.25rem 1.4rem; border: 1px solid #dfe3ee; border-left: 4px solid #2F66F0; border-radius: 12px; background: #f6f8fe; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.tipjar p { margin: 0; flex: 1 1 18rem; }
