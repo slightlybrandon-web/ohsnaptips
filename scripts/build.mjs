@@ -80,7 +80,7 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
     <span class="kicker">How-to guides + video</span>
     <h1>Straight &amp; to the point.</h1>
     <p>Quick tech how-tos you can watch and follow along, plus full-length classes. Every guide comes with a video and clear, numbered steps.</p>
-    <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a><a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a></div>
+    <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a>${liveClasses.length ? '<a class="btn btn-outline-light" href="#classes">Browse classes</a>' : `<a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a>`}</div>
   </div>
   <div class="hero-art"><img src="/img/hero.png" alt="A finger snap with blue snap lines: the Oh Snap Tips logo" width="1040" height="1040"></div>
 </div></section>`;

@@ -162,7 +162,7 @@ ${extraHead}
 <body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136"></a>
-  <nav><a href="/#guides">Guides</a>${env.HAS_CLASSES ? '<a href="/#classes">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt)}" target="_blank" rel="noopener"><span class="long">Subscribe on </span>YouTube</a></nav>
+  <nav><a href="/#guides">Guides</a>${env.HAS_CLASSES ? '<a href="/#classes">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
