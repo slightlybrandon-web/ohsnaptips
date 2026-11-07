@@ -87,8 +87,36 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
     <p>Quick tech how-tos you can watch and follow along, plus full-length classes. Every guide comes with a video and clear, numbered steps.</p>
     <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a>${liveClasses.length ? '<a class="btn btn-outline-light" href="#classes">Browse classes</a>' : `<a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a>`}</div>
   </div>
-  <div class="hero-art"><img src="/img/hero.png" alt="A finger snap with blue snap lines: the Oh Snap Tips logo" width="1040" height="1040"></div>
+  <div class="hero-art"><div class="logo-stage" id="logo-stage" role="img" aria-label="Oh Snap Tips logo: a finger snap with blue snap lines">
+    <img class="ls ls-o" src="/img/logo-ohsnap.png" alt="" width="1000" height="568">
+    <img class="ls ls-t" src="/img/logo-tips.png" alt="" width="1000" height="568">
+    <img class="ls ls-h ls-h0" src="/img/logo-hand-0.png" alt="" width="1000" height="568">
+    <img class="ls ls-h ls-h1" src="/img/logo-hand-1.png" alt="" width="1000" height="568">
+    <img class="ls ls-h ls-h2" src="/img/logo-hand-2.png" alt="" width="1000" height="568">
+    <img class="ls ls-h ls-h3" src="/img/logo-hand-3.png" alt="" width="1000" height="568">
+    <img class="ls ls-snap" src="/img/logo-snap.png" alt="" width="1000" height="568">
+    <svg class="ls ls-ring" viewBox="0 0 1000 568" aria-hidden="true"><line x1="274.0" y1="316.0" x2="298.0" y2="316.0" style="--dx:38.0px;--dy:0.0px"/><line x1="194.0" y1="316.0" x2="170.0" y2="316.0" style="--dx:-38.0px;--dy:0.0px"/><line x1="199.4" y1="296.0" x2="178.6" y2="284.0" style="--dx:-32.9px;--dy:-19.0px"/><line x1="214.0" y1="281.4" x2="202.0" y2="260.6" style="--dx:-19.0px;--dy:-32.9px"/><line x1="234.0" y1="276.0" x2="234.0" y2="252.0" style="--dx:-0.0px;--dy:-38.0px"/><line x1="254.0" y1="281.4" x2="266.0" y2="260.6" style="--dx:19.0px;--dy:-32.9px"/><line x1="268.6" y1="296.0" x2="289.4" y2="284.0" style="--dx:32.9px;--dy:-19.0px"/></svg>
+  </div></div>
 </div></section>`;
+
+const heroScript = `<script>
+(function(){var st=document.getElementById('logo-stage');if(!st)return;
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)return;
+var BW=1000,SO=[[11,170],[182,334],[346,494],[504,656],[667,813],[831,990]],ST=[[385,488],[494,545],[562,721],[726,874]];
+var T=[80,170,210,290,380,420,500,540,630,710];
+var o=st.querySelector('.ls-o'),t=st.querySelector('.ls-t'),h=[0,1,2,3].map(function(i){return st.querySelector('.ls-h'+i)}),sn=st.querySelector('.ls-snap'),ring=st.querySelector('.ls-ring');
+var timers=[];function at(ms,f){timers.push(setTimeout(f,ms))}
+function clip(el,x){el.style.clipPath='inset(0 '+(100-(x+2)/BW*100).toFixed(2)+'% 0 0)'}
+function showHand(i){h.forEach(function(e,k){e.style.opacity=k===i?1:0})}
+function play(){timers.forEach(clearTimeout);timers=[];st.classList.remove('done');st.classList.add('anim');
+o.style.clipPath='inset(0 100% 0 0)';t.style.clipPath='inset(0 100% 0 0)';showHand(-1);sn.style.opacity=0;ring.classList.remove('go');st.classList.remove('dip');
+T.forEach(function(ms,i){at(ms,function(){if(i<6)clip(o,SO[i][1]);else clip(t,ST[i-6][1])})});
+at(1000,function(){showHand(0);st.classList.add('dip')});
+at(1400,function(){showHand(1);ring.classList.add('go');sn.style.opacity=1});
+at(1480,function(){showHand(2)});at(1560,function(){showHand(3)});
+at(2400,function(){st.classList.remove('dip');st.classList.add('done')});}
+st.addEventListener('click',play);play();})();
+</script>`;
 
 const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label><p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
 <script>
@@ -119,7 +147,7 @@ const grid = rest.length
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
   description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
-  body: hero + searchBar + featured + classSection + grid,
+  body: hero + heroScript + searchBar + featured + classSection + grid,
 }));
 
 // Guide pages

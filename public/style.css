@@ -57,8 +57,18 @@ nav a:hover { color: #9db8ff; }
 .hero h1 { font: 800 clamp(2.4rem, 5.2vw, 4rem)/1.05 var(--display); letter-spacing: -.04em; margin: 1rem 0 1.1rem; }
 .hero p { color: #c2c8d8; font-size: 1.15rem; max-width: 34ch; margin: 0 0 1.8rem; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: .8rem; }
-.hero-art { display: flex; justify-content: center; align-self: end; }
-.hero-art img { display: block; width: auto; max-height: 400px; margin-bottom: 2rem; }
+.hero-art { display: flex; justify-content: center; align-self: center; padding: 1rem 0 2rem; }
+.logo-stage { position: relative; width: min(100%, 560px); aspect-ratio: 1000 / 568; cursor: pointer; }
+.logo-stage .ls { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* final state (no JS / reduced motion): full logo, closed hand, snap lines */
+.ls-h0, .ls-h1, .ls-h2, .ls-ring { opacity: 0; }
+.ls-ring line { stroke: #2F66F0; stroke-width: 7; stroke-linecap: round; opacity: 0; }
+.ls-ring.go line { animation: ring-burst .45s ease-out forwards; }
+@keyframes ring-burst { 0% { opacity: 0; transform: translate(0, 0); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)); } }
+.logo-stage.anim .ls-h { transition: none; }
+.logo-stage.dip .ls-h { transform: translateY(6px); }
+.ls-ring { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .logo-stage { cursor: default; } }
 
 /* ---------- latest ---------- */
 .latest { padding-top: 3.5rem; }
@@ -129,7 +139,7 @@ nav a:hover { color: #9db8ff; }
 @media (max-width: 860px) {
   .hero-grid { grid-template-columns: 1fr; min-height: 0; padding-top: 2.5rem; }
   .hero-copy { padding-bottom: 0; }
-  .hero-art img { max-height: 300px; }
+  .hero-art { padding: 0 0 1.5rem; order: -1; }
   .latest-grid { grid-template-columns: 1fr; gap: 1.4rem; }
   nav a:not(.btn) { display: none; }
 }
