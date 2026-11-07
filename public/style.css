@@ -31,6 +31,9 @@ a:hover { color: var(--blue-dark); }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
 .logo { display: inline-flex; align-items: center; }
 .logo img { height: 34px; width: auto; display: block; }
+/* home page: the big hero logo is on screen, so the header logo appears only after scrolling past it */
+.home.js-hero .site-header .logo { opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+.home.js-hero.scrolled .site-header .logo { opacity: 1; pointer-events: auto; }
 nav { display: flex; align-items: center; gap: 1.5rem; }
 nav a { color: #fff; text-decoration: none; font-weight: 600; font-size: .95rem; }
 nav a:hover { color: #9db8ff; }
