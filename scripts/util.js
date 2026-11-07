@@ -161,12 +161,12 @@ ${extraHead}
 </head>
 <body>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="699" height="133"></a>
+  <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136"></a>
   <nav><a href="/#guides">Guides</a>${env.HAS_CLASSES ? '<a href="/#classes">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt)}" target="_blank" rel="noopener"><span class="long">Subscribe on </span>YouTube</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
-  <img src="/img/wordmark.png" alt="${esc(site)}" width="699" height="133">
+  <img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136">
   <p>Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · © ${new Date().getFullYear()}</p>
 </div></footer>
 </body>
