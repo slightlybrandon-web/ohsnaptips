@@ -123,6 +123,13 @@ export function guideCard(g) {
   return `<a class="card" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><h3>${esc(g.title)}</h3>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}<span class="meta">${fmtDate(g.created_at)} · ${g.youtube_id ? 'Video + guide' : 'Guide'}</span></div></a>`;
 }
 
+export function classCard(c) {
+  const media = c.youtube_id
+    ? `<div class="thumb"><img loading="lazy" src="${thumb(c.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
+    : `<div class="thumb noimg" aria-hidden="true"><img loading="lazy" src="/img/burst.png" alt=""></div>`;
+  return `<a class="card" href="/class/${esc(c.slug)}/">${media}<div class="card-body"><span class="badge">Class${c.length ? ' · ' + esc(c.length) : ''}</span><h3>${esc(c.title)}</h3>${c.summary ? `<p>${esc(c.summary)}</p>` : ''}<span class="meta">${fmtDate(c.created_at)}</span></div></a>`;
+}
+
 export function page({ env, origin, title, description = '', path = '/', image = '', body, extraHead = '', type = 'website' }) {
   const site = env.SITE_NAME || 'Oh Snap Tips';
   const fullTitle = path === '/' ? `${site} – ${title}` : `${title} | ${site}`;
@@ -154,12 +161,12 @@ ${extraHead}
 </head>
 <body>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="701" height="114"></a>
-  <nav><a href="/#guides">Guides</a><a class="btn btn-sm" href="${esc(yt)}" target="_blank" rel="noopener"><span class="long">Subscribe on </span>YouTube</a></nav>
+  <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="699" height="133"></a>
+  <nav><a href="/#guides">Guides</a>${env.HAS_CLASSES ? '<a href="/#classes">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt)}" target="_blank" rel="noopener"><span class="long">Subscribe on </span>YouTube</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
-  <img src="/img/wordmark.png" alt="${esc(site)}" width="701" height="114">
+  <img src="/img/wordmark.png" alt="${esc(site)}" width="699" height="133">
   <p>Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · © ${new Date().getFullYear()}</p>
 </div></footer>
 </body>

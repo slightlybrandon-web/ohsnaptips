@@ -28,3 +28,22 @@ collections:
       - { label: Date, name: date, widget: datetime, type: date, date_format: "YYYY-MM-DD", time_format: false, default: "{{now}}" }
       - { label: "Draft (keep hidden from the site)", name: draft, widget: boolean, default: false, required: false }
       - { label: Guide, name: body, widget: richtext, hint: "Use the numbered-list button for steps, the image button to upload screenshots." }
+
+  - name: classes
+    label: Classes
+    label_singular: Class
+    folder: /classes
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: YouTube link, name: youtube, widget: string, hint: "Paste the link to the full class video." }
+      - { label: Length, name: length, widget: string, required: false, hint: "For example: 52 min or 1 hr 50 min." }
+      - { label: Short summary, name: summary, widget: text, required: false, hint: "Shown on the home page and in Google results (max 300 characters)." }
+      - { label: Date, name: date, widget: datetime, type: date, date_format: "YYYY-MM-DD", time_format: false, default: "{{now}}" }
+      - { label: "Draft (keep hidden from the site)", name: draft, widget: boolean, default: false, required: false }
+      - { label: Class notes, name: body, widget: richtext, hint: "Use a heading such as What you'll learn, then a bullet list of topics, and add links or resources mentioned in the class." }

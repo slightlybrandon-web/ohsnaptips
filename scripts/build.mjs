@@ -1,21 +1,22 @@
 // Builds the static site into ./_site from the markdown files in ./guides.
 // No dependencies: runs on plain Node 18+.
-import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, slugify, youtubeId, ytWatch } from './util.js';
+import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, slugify, youtubeId, ytWatch } from './util.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
 const env = JSON.parse(readFileSync(join(root, 'site.config.json'), 'utf8'));
 const origin = env.SITE_URL.replace(/\/$/, '');
 
-const fail = (file, msg) => { console.error(`\nERROR in guides/${file}: ${msg}\n`); process.exit(1); };
+const fail = (file, msg, dir = 'guides') => { console.error(`\nERROR in ${dir}/${file}: ${msg}\n`); process.exit(1); };
 
-function parse(file) {
-  const raw = readFileSync(join(root, 'guides', file), 'utf8').replace(/\r/g, '');
+function parse(file, dir = 'guides') {
+  const fail2 = (f, m) => fail(f, m, dir);
+  const raw = readFileSync(join(root, dir, file), 'utf8').replace(/\r/g, '');
   const m = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (!m) fail(file, 'Missing the top section between --- lines (title, youtube, summary, date).');
+  if (!m) fail2(file, 'Missing the top section between --- lines (title, youtube, summary, date).');
   const meta = {};
   let key = null, block = false;
   const clean = (v) => {
@@ -36,22 +37,28 @@ function parse(file) {
     }
   }
   for (const k of Object.keys(meta)) meta[k] = clean(meta[k]);
-  if (!meta.title) fail(file, 'Missing "title:".');
+  if (!meta.title) fail2(file, 'Missing "title:".');
   const slug = slugify(file.replace(/\.md$/i, ''));
-  if (!slug) fail(file, 'File name must contain letters or numbers.');
+  if (!slug) fail2(file, 'File name must contain letters or numbers.');
   const yt = meta.youtube ? youtubeId(meta.youtube) : '';
-  if (meta.youtube && !yt) fail(file, `"youtube:" does not look like a YouTube link: ${meta.youtube}`);
+  if (meta.youtube && !yt) fail2(file, `"youtube:" does not look like a YouTube link: ${meta.youtube}`);
   const date = meta.date || new Date().toISOString().slice(0, 10);
-  if (isNaN(new Date(date))) fail(file, `"date:" must look like 2026-11-06, got: ${date}`);
+  if (isNaN(new Date(date))) fail2(file, `"date:" must look like 2026-11-06, got: ${date}`);
   return {
-    slug, title: meta.title, summary: (meta.summary || '').slice(0, 300), youtube_id: yt,
+    slug, title: meta.title, length: (meta.length || '').slice(0, 20), summary: (meta.summary || '').slice(0, 300), youtube_id: yt,
     created_at: new Date(date).toISOString(), draft: /^(true|yes)$/i.test(meta.draft || ''), body: m[2],
   };
 }
 
 const guides = readdirSync(join(root, 'guides'))
   .filter((f) => /\.md$/i.test(f) && !f.startsWith('_'))
-  .map(parse);
+  .map((f) => parse(f));
+
+const classes = existsSync(join(root, 'classes'))
+  ? readdirSync(join(root, 'classes')).filter((f) => /\.md$/i.test(f) && !f.startsWith('_')).map((f) => parse(f, 'classes'))
+  : [];
+const liveClasses = classes.filter((c) => !c.draft).sort((a, b) => b.created_at.localeCompare(a.created_at));
+env.HAS_CLASSES = liveClasses.length > 0;
 
 const seen = new Set();
 for (const g of guides) { if (seen.has(g.slug)) fail(g.slug + '.md', 'Another guide already uses this file name.'); seen.add(g.slug); }
@@ -72,10 +79,10 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
   <div class="hero-copy">
     <span class="kicker">How-to guides + video</span>
     <h1>Straight &amp; to the point.</h1>
-    <p>Quick tech how-tos you can watch and follow along. Every guide comes with a video and clear, numbered steps.</p>
+    <p>Quick tech how-tos you can watch and follow along, plus full-length classes. Every guide comes with a video and clear, numbered steps.</p>
     <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a><a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a></div>
   </div>
-  <div class="hero-art"><img src="/img/hero.png" alt="Oh Snap Tips logo: a speech bubble with a lightbulb" width="840" height="840"></div>
+  <div class="hero-art"><img src="/img/hero.png" alt="A finger heart: the Oh Snap Tips logo" width="1040" height="1040"></div>
 </div></section>`;
 
 const featured = latest
@@ -87,6 +94,10 @@ const featured = latest
     </div></section>`
   : `<section class="wrap latest"><h2 class="section-title">Guides are on the way</h2><p>New how-to guides and videos are coming soon.</p></section>`;
 
+const classSection = liveClasses.length
+  ? `<section id="classes" class="wrap"><h2 class="section-title">Classes</h2><p class="section-sub">Full-length sessions. Watch the whole class and jump to the part you need.</p><div class="grid">${liveClasses.map(classCard).join('')}</div></section>`
+  : '';
+
 const grid = rest.length
   ? `<section id="guides" class="wrap"><h2 class="section-title">All guides</h2><div class="grid">${rest.map(guideCard).join('')}</div></section>`
   : '<div id="guides"></div>';
@@ -94,7 +105,7 @@ const grid = rest.length
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
   description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
-  body: hero + featured + grid,
+  body: hero + featured + classSection + grid,
 }));
 
 // Guide pages
@@ -114,11 +125,30 @@ for (const g of live) {
   }));
 }
 
+// Class pages
+for (const c of liveClasses) {
+  const more = liveClasses.filter((x) => x !== c).slice(0, 3);
+  const ld = c.youtube_id
+    ? `<script type="application/ld+json">${JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'VideoObject', name: c.title, description: c.summary || c.title,
+        thumbnailUrl: thumb(c.youtube_id), uploadDate: c.created_at, embedUrl: `https://www.youtube.com/embed/${c.youtube_id}`,
+      }).replace(/</g, '\\u003c')}</script>` : '';
+  const body = `<article class="wrap prose"><p class="crumbs"><a href="/#classes">&larr; All classes</a></p>
+    <span class="badge">Class${c.length ? ' · ' + esc(c.length) : ''}</span><h1>${esc(c.title)}</h1>
+    <p class="meta">${fmtDate(c.created_at)}</p>${c.youtube_id ? videoEmbed(c.youtube_id, c.title) + `<p class="watch-yt"><a href="${ytWatch(c.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(c.body)}</article>
+    ${more.length ? `<section class="wrap"><h2 class="section-title">More classes</h2><div class="grid">${more.map(classCard).join('')}</div></section>` : ''}`;
+  write(`class/${c.slug}/index.html`, page({
+    env, origin, path: `/class/${c.slug}/`, title: c.title, description: c.summary || `${c.title} – full class.`,
+    image: c.youtube_id ? thumb(c.youtube_id) : '', type: 'article', extraHead: ld, body,
+  }));
+}
+
 // 404, sitemap
 write('404.html', page({ env, origin, path: '/404.html', title: 'Page not found',
   body: '<div class="wrap prose"><h1>Page not found</h1><p><a href="/">Back to all guides</a></p></div>' }));
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url>${
-  live.map((g) => `<url><loc>${esc(origin)}/guide/${esc(g.slug)}/</loc><lastmod>${g.created_at.slice(0, 10)}</lastmod></url>`).join('')}</urlset>`);
+  live.map((g) => `<url><loc>${esc(origin)}/guide/${esc(g.slug)}/</loc><lastmod>${g.created_at.slice(0, 10)}</lastmod></url>`).join('')}${
+  liveClasses.map((c) => `<url><loc>${esc(origin)}/class/${esc(c.slug)}/</loc><lastmod>${c.created_at.slice(0, 10)}</lastmod></url>`).join('')}</urlset>`);
 write('.nojekyll', '');
 
-console.log(`Built ${live.length} guide(s)${guides.length - live.length ? `, skipped ${guides.length - live.length} draft(s)` : ''} → _site/`);
+console.log(`Built ${live.length} guide(s), ${liveClasses.length} class(es)${guides.length - live.length ? `, skipped ${guides.length - live.length} draft(s)` : ''} → _site/`);
