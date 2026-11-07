@@ -2,6 +2,7 @@
 // No dependencies: runs on plain Node 18+.
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, slugify, youtubeId, ytWatch } from './util.js';
 
@@ -9,6 +10,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
 const env = JSON.parse(readFileSync(join(root, 'site.config.json'), 'utf8'));
 const origin = env.SITE_URL.replace(/\/$/, '');
+env.CSS_V = createHash('md5').update(readFileSync(join(root, 'public', 'style.css'))).digest('hex').slice(0, 8);
 
 const fail = (file, msg, dir = 'guides') => { console.error(`\nERROR in ${dir}/${file}: ${msg}\n`); process.exit(1); };
 
@@ -88,7 +90,7 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
   <div class="hero-art"><img src="/img/hero.png" alt="A finger snap with blue snap lines: the Oh Snap Tips logo" width="1040" height="1040"></div>
 </div></section>`;
 
-const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label><p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
+const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label><p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
 <script>
 document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes'));
 function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1});c.style.display=ok?'':'none';if(ok)shown++;});
