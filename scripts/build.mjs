@@ -60,6 +60,9 @@ const classes = existsSync(join(root, 'classes'))
 const liveClasses = classes.filter((c) => !c.draft).sort((a, b) => b.created_at.localeCompare(a.created_at));
 env.HAS_CLASSES = liveClasses.length > 0;
 
+const plain = (x) => `${x.title} ${x.summary} ${x.body}`.replace(/[#>*_`\[\]()!\\-]/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ').toLowerCase().slice(0, 1500);
+for (const x of [...guides, ...classes]) x.search = plain(x);
+
 const seen = new Set();
 for (const g of guides) { if (seen.has(g.slug)) fail(g.slug + '.md', 'Another guide already uses this file name.'); seen.add(g.slug); }
 
@@ -85,6 +88,15 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
   <div class="hero-art"><img src="/img/hero.png" alt="A finger snap with blue snap lines: the Oh Snap Tips logo" width="1040" height="1040"></div>
 </div></section>`;
 
+const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label><p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
+<script>
+document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes'));
+function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1});c.style.display=ok?'':'none';if(ok)shown++;});
+secs.forEach(function(sec){var any=[].slice.call(sec.querySelectorAll('.card[data-s]')).some(function(c){return c.style.display!=='none'});sec.style.display=any?'':'none';});
+if(latest)latest.style.display=v?'none':'';nores.hidden=!(v&&!shown);}
+q.addEventListener('input',run);});
+</script>`;
+
 const featured = latest
   ? `<section class="wrap latest"><span class="kicker">Latest guide</span><div class="latest-grid">
       <div>${latest.youtube_id ? videoEmbed(latest.youtube_id, latest.title) : ''}</div>
@@ -105,7 +117,7 @@ const grid = rest.length
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
   description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
-  body: hero + featured + classSection + grid,
+  body: hero + searchBar + featured + classSection + grid,
 }));
 
 // Guide pages
