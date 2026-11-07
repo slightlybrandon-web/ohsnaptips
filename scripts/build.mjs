@@ -101,7 +101,6 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
 
 const heroScript = `<script>
 (function(){var st=document.getElementById('logo-stage');if(!st)return;
-var bd=document.body;bd.classList.add('js-hero');if('IntersectionObserver' in window){new IntersectionObserver(function(es){bd.classList.toggle('scrolled',!es[0].isIntersecting)},{threshold:0.1}).observe(st)}else{bd.classList.add('scrolled')}
 var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)return;
 var BW=1000,SO=[[11,170],[182,334],[346,494],[504,656],[667,813],[831,990]],ST=[[385,488],[494,545],[562,721],[726,874]];
 var T=[80,170,210,290,380,420,500,540,630,710];

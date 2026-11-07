@@ -159,7 +159,7 @@ export function page({ env, origin, title, description = '', path = '/', image =
 <link rel="stylesheet" href="/style.css?v=${esc(env.CSS_V || '1')}">
 ${extraHead}
 </head>
-<body${path === '/' ? ' class="home"' : ''}>
+<body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136"></a>
   <nav><a href="/#guides">Guides</a>${env.HAS_CLASSES ? '<a href="/#classes">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
