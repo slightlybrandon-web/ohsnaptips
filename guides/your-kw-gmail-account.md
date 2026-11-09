@@ -2,6 +2,7 @@
 title: Your KW Gmail Account: Sign In, Scheduler and Signature
 youtube: https://www.youtube.com/watch?v=lsJRp9Vowjg
 summary: Sign in to your KW email (hosted by Gmail), set up an appointment scheduler and add the required email disclaimer to your signature.
+topic: Google
 date: 2022-10-25
 ---
 

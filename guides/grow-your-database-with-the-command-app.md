@@ -2,6 +2,7 @@
 title: Grow Your Database Using the Command App
 youtube: https://www.youtube.com/watch?v=8zAsepSFjsY
 summary: Add contacts to KW Command from your phone, anywhere, with the Command mobile app.
+topic: KW Command
 date: 2022-08-20
 ---
 

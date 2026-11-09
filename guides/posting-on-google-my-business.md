@@ -2,6 +2,7 @@
 title: Posting on Google My Business
 youtube: https://www.youtube.com/watch?v=O3kixZ2hRsY
 summary: Create a free post on your Google Business Profile so clients see fresh updates right in Google Search.
+topic: Google
 date: 2022-09-02
 ---
 

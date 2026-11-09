@@ -2,6 +2,7 @@
 title: KW Command Overview
 youtube: https://www.youtube.com/watch?v=y0siBXar-cY
 summary: Set up your marketing profile, connect your e-signature accounts and get a tour of every Command applet.
+topic: KW Command
 date: 2022-10-26
 ---
 

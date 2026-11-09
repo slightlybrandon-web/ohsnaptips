@@ -120,14 +120,14 @@ export function guideCard(g) {
   const media = g.youtube_id
     ? `<div class="thumb"><img loading="lazy" src="${thumb(g.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
     : `<div class="thumb noimg" aria-hidden="true"><img loading="lazy" src="/img/burst.png" alt=""></div>`;
-  return `<a class="card" data-s="${esc(g.search || '')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><h3>${esc(g.title)}</h3>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}<span class="meta">${fmtDate(g.created_at)} · ${g.youtube_id ? 'Video + guide' : 'Guide'}</span></div></a>`;
+  return `<a class="card" data-s="${esc(g.search || '')}" data-t="${esc(g.topic || '')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><h3>${esc(g.title)}</h3>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}<span class="meta">${fmtDate(g.created_at)} · ${g.youtube_id ? 'Video + guide' : 'Guide'}</span></div></a>`;
 }
 
 export function classCard(c) {
   const media = c.youtube_id
     ? `<div class="thumb"><img loading="lazy" src="${thumb(c.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
     : `<div class="thumb noimg" aria-hidden="true"><img loading="lazy" src="/img/burst.png" alt=""></div>`;
-  return `<a class="card" data-s="${esc(c.search || '')}" href="/class/${esc(c.slug)}/">${media}<div class="card-body"><span class="badge">Class${c.length ? ' · ' + esc(c.length) : ''}</span><h3>${esc(c.title)}</h3>${c.summary ? `<p>${esc(c.summary)}</p>` : ''}<span class="meta">${fmtDate(c.created_at)}</span></div></a>`;
+  return `<a class="card" data-s="${esc(c.search || '')}" data-t="Classes" href="/class/${esc(c.slug)}/">${media}<div class="card-body"><span class="badge">Class${c.length ? ' · ' + esc(c.length) : ''}</span><h3>${esc(c.title)}</h3>${c.summary ? `<p>${esc(c.summary)}</p>` : ''}<span class="meta">${fmtDate(c.created_at)}</span></div></a>`;
 }
 
 export function page({ env, origin, title, description = '', path = '/', image = '', body, extraHead = '', type = 'website' }) {

@@ -2,6 +2,7 @@
 title: Take the DiSC Assessment
 youtube: https://www.youtube.com/watch?v=oNpojy9SV_A
 summary: Where to find the DiSC instructions and how to complete the personality assessment.
+topic: Training
 date: 2022-10-23
 ---
 

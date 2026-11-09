@@ -2,6 +2,7 @@
 title: Connect Facebook to KW Command
 youtube: https://www.youtube.com/watch?v=62rDzIyMpzQ
 summary: Link your Facebook business page and Ads Manager account to Command so you can send campaigns and schedule posts.
+topic: KW Command
 date: 2022-08-19
 ---
 

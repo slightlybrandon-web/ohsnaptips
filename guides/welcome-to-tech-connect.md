@@ -2,6 +2,7 @@
 title: Welcome to Tech Connect: Your New Agent Tech Accounts
 youtube: https://www.youtube.com/watch?v=9_FxZELK8bU
 summary: A tour of the accounts in your UpTech Pro paperwork, from your MyKW login to your Command website and marketing tools.
+topic: Training
 date: 2022-10-18
 ---
 

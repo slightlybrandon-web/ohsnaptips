@@ -2,6 +2,7 @@
 title: Download Your Phone Contacts with SA Contacts
 youtube: https://www.youtube.com/watch?v=qEDe-Zqn7pA
 summary: Export every contact on your iPhone or Android to a spreadsheet (CSV) using the free SA Contacts Lite app.
+topic: Tools & Phone
 date: 2022-08-21
 ---
 

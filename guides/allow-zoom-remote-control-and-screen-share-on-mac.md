@@ -2,6 +2,7 @@
 title: How to Allow Zoom Remote Control and Screen Share on a Mac
 youtube: https://www.youtube.com/watch?v=XgmgjRuOn18
 summary: Give Zoom the Mac permissions it needs to share your screen and let others take remote control.
+topic: Tools & Phone
 date: 2022-11-02
 ---
 

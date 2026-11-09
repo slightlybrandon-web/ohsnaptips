@@ -2,6 +2,7 @@
 title: Safety Procedures at Keller Williams Memorial: The Red File
 youtube: https://www.youtube.com/watch?v=MnMrSxwfw80
 summary: How the Red File safety procedure works when you feel unsafe showing a property.
+topic: Training
 date: 2022-10-22
 ---
 

@@ -2,6 +2,7 @@
 title: Create a Free Digital Business Card (and Share It with NFC)
 youtube: https://www.youtube.com/watch?v=CSG3PDFnRC0
 summary: Build a free digital business card with the HiHello app, then tap an NFC bracelet or tag to share it instantly.
+topic: Tools & Phone
 date: 2022-11-03
 ---
 

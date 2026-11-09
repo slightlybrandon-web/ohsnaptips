@@ -47,7 +47,7 @@ function parse(file, dir = 'guides') {
   const date = meta.date || new Date().toISOString().slice(0, 10);
   if (isNaN(new Date(date))) fail2(file, `"date:" must look like 2026-11-06, got: ${date}`);
   return {
-    slug, title: meta.title, length: (meta.length || '').slice(0, 20), summary: (meta.summary || '').slice(0, 300), youtube_id: yt,
+    slug, title: meta.title, topic: (meta.topic || '').slice(0, 30), length: (meta.length || '').slice(0, 20), summary: (meta.summary || '').slice(0, 300), youtube_id: yt,
     created_at: new Date(date).toISOString(), draft: /^(true|yes)$/i.test(meta.draft || ''), body: m[2],
   };
 }
@@ -64,10 +64,12 @@ env.HAS_CLASSES = liveClasses.length > 0;
 
 const plain = (x) => `${x.title} ${x.summary} ${x.body}`.replace(/[#>*_`\[\]()!\\-]/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ').toLowerCase().slice(0, 1500);
 for (const x of [...guides, ...classes]) x.search = plain(x);
+for (const c of classes) c.topic = 'Classes';
 
 const seen = new Set();
 for (const g of guides) { if (seen.has(g.slug)) fail(g.slug + '.md', 'Another guide already uses this file name.'); seen.add(g.slug); }
 
+function live0() { return live; }
 const live = guides.filter((g) => !g.draft).sort((a, b) => b.created_at.localeCompare(a.created_at));
 
 rmSync(out, { recursive: true, force: true });
@@ -78,7 +80,7 @@ const write = (p, c) => { mkdirSync(dirname(join(out, p)), { recursive: true });
 // Home
 const yt = env.YOUTUBE_CHANNEL_URL;
 const latest = live.find((g) => g.youtube_id) || live[0];
-const rest = live.filter((g) => g !== latest);
+const rest = live;
 
 const hero = `<section class="hero"><div class="wrap hero-grid">
   <div class="hero-copy">
@@ -118,13 +120,16 @@ at(2400,function(){st.classList.remove('dip');st.classList.add('done')});}
 st.addEventListener('click',play);play();})();
 </script>`;
 
-const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label><p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
+const topicNames = [...new Set(live0().map((g) => g.topic).filter(Boolean))];
+const chips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}${liveClasses.length ? '<button type="button" class="chip" data-t="Classes">Classes</button>' : ''}</div>`;
+const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label>${chips}<p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
 <script>
 document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes'));
-function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1});c.style.display=ok?'':'none';if(ok)shown++;});
+var topic='';var chips=[].slice.call(document.querySelectorAll('.chip'));
+function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1})&&(!topic||c.getAttribute('data-t')===topic);c.style.display=ok?'':'none';if(ok)shown++;});
 secs.forEach(function(sec){var any=[].slice.call(sec.querySelectorAll('.card[data-s]')).some(function(c){return c.style.display!=='none'});sec.style.display=any?'':'none';});
-if(latest)latest.style.display=v?'none':'';nores.hidden=!(v&&!shown);}
-q.addEventListener('input',run);});
+if(latest)latest.style.display=(v||topic)?'none':'';nores.hidden=!((v||topic)&&!shown);}
+q.addEventListener('input',run);chips.forEach(function(b){b.addEventListener('click',function(){topic=b.getAttribute('data-t');chips.forEach(function(x){x.classList.toggle('on',x===b)});run();var g=document.getElementById('guides')||document.getElementById('classes');});});});
 </script>`;
 
 const featured = latest

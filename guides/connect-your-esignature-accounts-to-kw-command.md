@@ -2,6 +2,7 @@
 title: Connect Your eSignature Accounts to KW Command
 youtube: https://www.youtube.com/watch?v=2aWE6wkiblI
 summary: Link your Dotloop and DocuSign accounts to KW Command so you can send contracts digitally.
+topic: KW Command
 date: 2022-10-20
 ---
 
