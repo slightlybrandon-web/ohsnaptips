@@ -42,8 +42,8 @@ export function youtubeId(input = '') {
 
 export const thumb = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
-export const videoEmbed = (id, title = 'Video') =>
-  `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(id)}?rel=0" title="${esc(title)}" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
+export const videoEmbed = (id, title = 'Video', short = false) =>
+  `<div class="video${short ? ' video-short' : ''}"><iframe src="https://www.youtube-nocookie.com/embed/${esc(id)}?rel=0" title="${esc(title)}" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
 
 const safeUrl = (u) => /^(https?:\/\/|\/)/i.test(u);
 
@@ -123,6 +123,13 @@ export function guideCard(g) {
   return `<a class="card" data-s="${esc(g.search || '')}" data-t="${esc(g.topic || '')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><h3>${esc(g.title)}</h3>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}<span class="meta">${fmtDate(g.created_at)} · ${g.youtube_id ? 'Video + guide' : 'Guide'}</span></div></a>`;
 }
 
+export function shortCard(g) {
+  const media = g.youtube_id
+    ? `<div class="thumb"><img loading="lazy" src="${thumb(g.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
+    : `<div class="thumb noimg" aria-hidden="true"><img loading="lazy" src="/img/burst.png" alt=""></div>`;
+  return `<a class="card card-short" data-s="${esc(g.search || '')}" data-t="${esc(g.topic || '')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><span class="badge">Shorty</span><h3>${esc(g.title)}</h3><span class="meta">${fmtDate(g.created_at)} · Short + guide</span></div></a>`;
+}
+
 export function classCard(c) {
   const media = c.youtube_id
     ? `<div class="thumb"><img loading="lazy" src="${thumb(c.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
@@ -162,7 +169,7 @@ ${extraHead}
 <body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136"></a>
-  <nav><a href="/#guides">Guides</a>${env.HAS_CLASSES ? '<a href="/#classes">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
+  <nav><a href="/#guides">Guides</a>${env.HAS_SHORTS ? '<a href="/#shorties">Shorties</a>' : ''}${env.HAS_CLASSES ? '<a href="/#classes">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">

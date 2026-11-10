@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, ex
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, slugify, youtubeId, ytWatch, tipBox } from './util.js';
+import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, shortCard, slugify, youtubeId, ytWatch, tipBox } from './util.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
@@ -46,8 +46,10 @@ function parse(file, dir = 'guides') {
   if (meta.youtube && !yt) fail2(file, `"youtube:" does not look like a YouTube link: ${meta.youtube}`);
   const date = meta.date || new Date().toISOString().slice(0, 10);
   if (isNaN(new Date(date))) fail2(file, `"date:" must look like 2026-11-06, got: ${date}`);
+  // A Short is still a guide: mark it with "format: short" (or paste a youtube.com/shorts/ link).
+  const short = /^short(s|y|ie|ies)?$/i.test(meta.format || '') || /youtube\.com\/shorts\//i.test(meta.youtube || '');
   return {
-    slug, title: meta.title, topic: (meta.topic || '').slice(0, 30), length: (meta.length || '').slice(0, 20), summary: (meta.summary || '').slice(0, 300), youtube_id: yt,
+    short, slug, title: meta.title, topic: (meta.topic || '').slice(0, 30), length: (meta.length || '').slice(0, 20), summary: (meta.summary || '').slice(0, 300), youtube_id: yt,
     created_at: new Date(date).toISOString(), draft: /^(true|yes)$/i.test(meta.draft || ''), body: m[2],
   };
 }
@@ -71,6 +73,9 @@ for (const g of guides) { if (seen.has(g.slug)) fail(g.slug + '.md', 'Another gu
 
 function live0() { return live; }
 const live = guides.filter((g) => !g.draft).sort((a, b) => b.created_at.localeCompare(a.created_at));
+const liveShorts = live.filter((g) => g.short);
+const liveFull = live.filter((g) => !g.short);
+env.HAS_SHORTS = liveShorts.length > 0;
 
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
@@ -79,8 +84,8 @@ const write = (p, c) => { mkdirSync(dirname(join(out, p)), { recursive: true });
 
 // Home
 const yt = env.YOUTUBE_CHANNEL_URL;
-const latest = live.find((g) => g.youtube_id) || live[0];
-const rest = live;
+const latest = liveFull.find((g) => g.youtube_id) || liveFull[0] || live[0];
+const rest = liveFull;
 
 const hero = `<section class="hero"><div class="wrap hero-grid">
   <div class="hero-copy">
@@ -124,7 +129,7 @@ const topicNames = [...new Set(live0().map((g) => g.topic).filter(Boolean))];
 const chips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}${liveClasses.length ? '<button type="button" class="chip" data-t="Classes">Classes</button>' : ''}</div>`;
 const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label>${chips}<p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
 <script>
-document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes'));
+document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes,#shorties'));
 var topic='';var chips=[].slice.call(document.querySelectorAll('.chip'));
 function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1})&&(!topic||c.getAttribute('data-t')===topic);c.style.display=ok?'':'none';if(ok)shown++;});
 secs.forEach(function(sec){var any=[].slice.call(sec.querySelectorAll('.card[data-s]')).some(function(c){return c.style.display!=='none'});sec.style.display=any?'':'none';});
@@ -134,7 +139,7 @@ q.addEventListener('input',run);chips.forEach(function(b){b.addEventListener('cl
 
 const featured = latest
   ? `<section class="wrap latest"><span class="kicker">Latest guide</span><div class="latest-grid">
-      <div>${latest.youtube_id ? videoEmbed(latest.youtube_id, latest.title) : ''}</div>
+      <div>${latest.youtube_id ? videoEmbed(latest.youtube_id, latest.title, latest.short) : ''}</div>
       <div class="latest-copy"><h2><a href="/guide/${esc(latest.slug)}/">${esc(latest.title)}</a></h2>
       ${latest.summary ? `<p>${esc(latest.summary)}</p>` : ''}
       <a class="btn" href="/guide/${esc(latest.slug)}/">Read the guide</a></div>
@@ -145,6 +150,10 @@ const classSection = liveClasses.length
   ? `<section id="classes" class="wrap"><h2 class="section-title">Classes</h2><p class="section-sub">Full-length sessions. Watch the whole class and jump to the part you need.</p><div class="grid">${liveClasses.map(classCard).join('')}</div></section>`
   : '';
 
+const shortSection = liveShorts.length
+  ? `<section id="shorties" class="wrap"><h2 class="section-title">Shorties</h2><p class="section-sub">Quick tips in under a minute. Every Shorty has a written guide too.</p><div class="grid grid-shorts">${liveShorts.map(shortCard).join('')}</div></section>`
+  : '';
+
 const grid = rest.length
   ? `<section id="guides" class="wrap"><h2 class="section-title">All guides</h2><div class="grid">${rest.map(guideCard).join('')}</div></section>`
   : '<div id="guides"></div>';
@@ -152,20 +161,20 @@ const grid = rest.length
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
   description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
-  body: hero + heroScript + searchBar + featured + classSection + grid,
+  body: hero + heroScript + searchBar + featured + classSection + shortSection + grid,
 }));
 
 // Guide pages
 for (const g of live) {
-  const more = live.filter((x) => x !== g).slice(0, 3);
+  const more = live.filter((x) => x !== g && x.short === g.short).slice(0, 3);
   const ld = g.youtube_id
     ? `<script type="application/ld+json">${JSON.stringify({
         '@context': 'https://schema.org', '@type': 'VideoObject', name: g.title, description: g.summary || g.title,
         thumbnailUrl: thumb(g.youtube_id), uploadDate: g.created_at, embedUrl: `https://www.youtube.com/embed/${g.youtube_id}`,
       }).replace(/</g, '\\u003c')}</script>` : '';
-  const body = `<article class="wrap prose"><p class="crumbs"><a href="/">&larr; All guides</a></p><h1>${esc(g.title)}</h1>
-    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}${tipBox()}</article>
-    ${more.length ? `<section class="wrap"><h2 class="section-title">More guides</h2><div class="grid">${more.map(guideCard).join('')}</div></section>` : ''}`;
+  const body = `<article class="wrap prose"><p class="crumbs">${g.short ? '<a href="/#shorties">&larr; All Shorties</a>' : '<a href="/">&larr; All guides</a>'}</p>${g.short ? '<span class="badge">Shorty</span>' : ''}<h1>${esc(g.title)}</h1>
+    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title, g.short) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}${tipBox()}</article>
+    ${more.length ? `<section class="wrap"><h2 class="section-title">${g.short ? 'More Shorties' : 'More guides'}</h2><div class="grid${g.short ? ' grid-shorts' : ''}">${more.map(g.short ? shortCard : guideCard).join('')}</div></section>` : ''}`;
   write(`guide/${g.slug}/index.html`, page({
     env, origin, path: `/guide/${g.slug}/`, title: g.title, description: g.summary || `${g.title} – step-by-step guide.`,
     image: g.youtube_id ? thumb(g.youtube_id) : '', type: 'article', extraHead: ld, body,
@@ -198,4 +207,4 @@ write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="htt
   liveClasses.map((c) => `<url><loc>${esc(origin)}/class/${esc(c.slug)}/</loc><lastmod>${c.created_at.slice(0, 10)}</lastmod></url>`).join('')}</urlset>`);
 write('.nojekyll', '');
 
-console.log(`Built ${live.length} guide(s), ${liveClasses.length} class(es)${guides.length - live.length ? `, skipped ${guides.length - live.length} draft(s)` : ''} → _site/`);
+console.log(`Built ${live.length} guide(s) (${liveShorts.length} Shorty/Shorties), ${liveClasses.length} class(es)${guides.length - live.length ? `, skipped ${guides.length - live.length} draft(s)` : ''} → _site/`);

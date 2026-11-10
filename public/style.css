@@ -173,3 +173,12 @@ nav a:hover { color: #9db8ff; }
 .chip { font: 700 .92rem/1 var(--sans); padding: .65rem 1.1rem; border-radius: 999px; border: 2px solid #dfe3ec; background: #fff; color: var(--ink); cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
 .chip:hover { border-color: var(--blue); color: var(--blue-dark); }
 .chip.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+/* ---------- shorties (vertical videos; still guides) ---------- */
+.video.video-short { aspect-ratio: 9 / 16; width: min(100%, 360px); margin-inline: auto; }
+.prose .video.video-short { margin: 1.5rem auto .75rem; }
+.latest-grid .video.video-short { margin-inline: 0; }
+.grid-shorts { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1.25rem; }
+.card-short .thumb { aspect-ratio: 9 / 16; }
+.card-short .card-body { padding: .9rem 1rem 1.1rem; }
+.card-short h3 { font-size: 1rem; }
