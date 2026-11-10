@@ -1,6 +1,6 @@
 ---
 title: How to Create a Google Business Profile
-youtube: https://www.youtube.com/watch?v=jpPkVHIC1yU
+youtube: https://www.youtube.com/watch?v=z-KVi_-UbGo
 summary: Set up a free Google Business Profile from scratch, get verified fast and optimize it so local customers find you on Google Search and Maps.
 topic: Google
 date: 2026-11-09
