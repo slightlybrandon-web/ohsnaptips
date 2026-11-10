@@ -92,7 +92,7 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
     <span class="kicker">How-to guides + video</span>
     <h1>Straight &amp; to the point.</h1>
     <p>Quick tech how-tos you can watch and follow along, plus full-length classes. Every guide comes with a video and clear, numbered steps.</p>
-    <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a>${liveClasses.length ? '<a class="btn btn-outline-light" href="#classes">Browse classes</a>' : `<a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a>`}</div>
+    <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a>${liveShorts.length ? '<a class="btn btn-outline-light" href="#shorties">Browse Shorties</a>' : ''}${liveClasses.length ? '<a class="btn btn-outline-light" href="#classes">Browse classes</a>' : `<a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a>`}</div>
   </div>
   <div class="hero-art"><div class="logo-stage" id="logo-stage" role="img" aria-label="Oh Snap Tips logo: a finger snap with blue snap lines">
     <img class="ls ls-o" src="/img/logo-ohsnap.png" alt="" width="1000" height="568">
@@ -126,12 +126,12 @@ st.addEventListener('click',play);play();})();
 </script>`;
 
 const topicNames = [...new Set(live0().map((g) => g.topic).filter(Boolean))];
-const chips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}${liveClasses.length ? '<button type="button" class="chip" data-t="Classes">Classes</button>' : ''}</div>`;
+const chips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}${liveClasses.length ? '<button type="button" class="chip" data-t="Classes">Classes</button>' : ''}${liveShorts.length ? '<button type="button" class="chip" data-t="Shorties">Shorties</button>' : ''}</div>`;
 const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label>${chips}<p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
 <script>
 document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes,#shorties'));
 var topic='';var chips=[].slice.call(document.querySelectorAll('.chip'));
-function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1})&&(!topic||c.getAttribute('data-t')===topic);c.style.display=ok?'':'none';if(ok)shown++;});
+function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1})&&(!topic||(c.getAttribute('data-t')||'').split('|').indexOf(topic)>-1);c.style.display=ok?'':'none';if(ok)shown++;});
 secs.forEach(function(sec){var any=[].slice.call(sec.querySelectorAll('.card[data-s]')).some(function(c){return c.style.display!=='none'});sec.style.display=any?'':'none';});
 if(latest)latest.style.display=(v||topic)?'none':'';nores.hidden=!((v||topic)&&!shown);}
 q.addEventListener('input',run);chips.forEach(function(b){b.addEventListener('click',function(){topic=b.getAttribute('data-t');chips.forEach(function(x){x.classList.toggle('on',x===b)});run();var g=document.getElementById('guides')||document.getElementById('classes');});});});

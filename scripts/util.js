@@ -127,7 +127,7 @@ export function shortCard(g) {
   const media = g.youtube_id
     ? `<div class="thumb"><img loading="lazy" src="${thumb(g.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
     : `<div class="thumb noimg" aria-hidden="true"><img loading="lazy" src="/img/burst.png" alt=""></div>`;
-  return `<a class="card card-short" data-s="${esc(g.search || '')}" data-t="${esc(g.topic || '')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><span class="badge">Shorty</span><h3>${esc(g.title)}</h3><span class="meta">${fmtDate(g.created_at)} · Short + guide</span></div></a>`;
+  return `<a class="card card-short" data-s="${esc(g.search || '')}" data-t="${esc((g.topic ? g.topic + '|' : '') + 'Shorties')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><span class="badge">Shorty</span><h3>${esc(g.title)}</h3><span class="meta">${fmtDate(g.created_at)} · Short + guide</span></div></a>`;
 }
 
 export function classCard(c) {
