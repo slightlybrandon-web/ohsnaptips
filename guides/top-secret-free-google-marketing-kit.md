@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=AuL-xjsAm2U
 summary: Download free social graphics from Google that show off your Google reviews.
 topic: Google
 date: 2022-09-01
+draft: true
 ---
 
 Google gives businesses free marketing materials, and they are great if you already have Google reviews.
