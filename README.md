@@ -25,7 +25,7 @@ The body is Markdown: `##` headings, numbered steps (`1.`), bullets (`-`), `> ` 
 
 **Shorties:** a YouTube Short is still a guide. Put it in `guides/` like any other, and either add `format: short` or paste a `youtube.com/shorts/...` link. It keeps its `/guide/` page (vertical video + written steps), search and sitemap entry, but appears in the "Shorties" section on the home page instead of "All guides".
 
-**Class materials (PDFs, practice files):** list them under a `## Class materials` heading as normal Markdown links. Link to Google Drive (set the folder to "anyone with the link") for big files like videos. Small files (PDFs, a few images) can instead be committed to `public/files/<class-name>/` and linked as `/files/<class-name>/file.pdf`. Keep each file under 100 MB and the whole repo well under 1 GB.
+**Class materials (PDFs, practice files):** list them under a `## Class materials` heading as normal Markdown links. Put the files in `public/files/<class-name>/` and link them as `/files/<class-name>/file.pdf`. Zip multiple videos or photos into one download. Keep each file under 100 MB and the whole repo well under 1 GB (GitHub's soft limit); if it grows past that, move big files to object storage such as Cloudflare R2.
 
 To publish: ask Claude with the YouTube link, or add a `.md` file in the right folder on GitHub. The site rebuilds in about a minute.
 

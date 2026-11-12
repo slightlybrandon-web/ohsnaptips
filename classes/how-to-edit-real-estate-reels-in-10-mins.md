@@ -12,12 +12,10 @@ Skip the extra editing app. In this hands-on class you build a pro-looking listi
 
 Download these before you press play, and save the practice clips to your camera roll.
 
-- [How-to guide (PDF)](https://drive.google.com/file/d/1GENbREVqcf5dBiO6WHQ6XiUCBZ9YAK9S/view): the full step-by-step companion to this class.
-- [Student handout (PDF)](https://drive.google.com/file/d/1tqJjTtbjHc8Ehw5OXizBs2_PCbTiy_BG/view): a one-page cheat sheet with hook formulas, a caption template and the 7-day challenge.
-- [Practice videos, portrait (vertical)](https://drive.google.com/drive/folders/199Y4e0kO1NvGuzWAoVd3SdkA8ROJMtVJ): 5 clips, about 10 seconds each. Use these for the class.
-- [Practice videos, landscape](https://drive.google.com/drive/folders/1Bjx2dqkf6RUjSiodvaDixvxx_t2RDZs1): the same tour in horizontal, for practicing a reframe.
-- [Practice photos](https://drive.google.com/drive/folders/1VSqTxA0ffftHNkaZ-e7wdWgZNxkuwTRj): 9 landscape stills, handy as backup slides or cover frames.
-- [All class files in one folder](https://drive.google.com/drive/folders/1YKqDlEBL5SVZU1QR0nnbMCq1wW1wf18L)
+- [How-to guide (PDF)](/files/reel-estate-secrets/reel-estate-secrets-how-to-guide.pdf): the full step-by-step companion to this class.
+- [Student handout (PDF)](/files/reel-estate-secrets/reel-estate-secrets-student-handout.pdf): a one-page cheat sheet with hook formulas, a caption template and the 7-day challenge.
+- [Practice videos (ZIP, 48 MB)](/files/reel-estate-secrets/reel-estate-secrets-practice-videos.zip): 10 short clips of the same tour, 5 portrait (use these for class) and 5 landscape (for practicing a reframe).
+- [Practice photos (ZIP, 6 MB)](/files/reel-estate-secrets/reel-estate-secrets-practice-photos.zip): 9 landscape stills, handy as backup slides or cover frames.
 
 > The practice property is AI-generated for training. It is not a real listing, so never post it as one.
 
