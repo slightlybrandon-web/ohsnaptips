@@ -1,5 +1,5 @@
 ---
-title: How to Create a Real Estate Facebook Business Page
+title: How to Create a Facebook Business Page
 youtube: https://www.youtube.com/watch?v=MBqYg7VMPh8
 summary: Set up a Facebook business page as a real estate agent, including a username, contact details and the compliance information.
 topic: Social

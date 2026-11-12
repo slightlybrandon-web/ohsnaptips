@@ -1,5 +1,5 @@
 ---
-title: Create a Linktree Account for Social
+title: How to Create a Free Linktree Account for Social Media
 youtube: https://www.youtube.com/watch?v=14JGueGWXJE
 summary: Put all of your links and social channels in one place with a free Linktree page.
 topic: Social

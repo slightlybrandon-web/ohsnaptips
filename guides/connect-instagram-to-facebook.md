@@ -1,5 +1,5 @@
 ---
-title: Connect Instagram to Your Facebook Business Page
+title: How to Connect Instagram and Facebook in Meta Business Suite
 youtube: https://www.youtube.com/watch?v=EOWH7e7ssxY
 summary: Link your Instagram business account to Facebook so you can post and schedule to both from one place.
 topic: Social
