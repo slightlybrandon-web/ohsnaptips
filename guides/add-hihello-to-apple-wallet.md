@@ -1,5 +1,5 @@
 ---
-title: Add HiHello to Apple Wallet
+title: How to Add Your HiHello Business Card to Apple Wallet
 youtube: https://www.youtube.com/shorts/c1kuRQD1P-Y
 format: short
 summary: Put your HiHello digital business card in Apple Wallet so it's one double-click away when you meet someone.

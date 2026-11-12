@@ -1,5 +1,5 @@
 ---
-title: "Just Google It: Building the Ultimate Back-Office Blueprint"
+title: "Back-Office Blueprint: Organize Your Business With Google Workspace"
 youtube: https://www.youtube.com/watch?v=75S-nfPZsx0
 length: 1 hr 50 min
 summary: A hands-on masterclass on replacing chaotic admin habits with a streamlined back-office system you can run in the background of your real estate business.

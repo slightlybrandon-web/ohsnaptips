@@ -1,5 +1,5 @@
 ---
-title: "How to Edit Real Estate Reels in 10 Mins (WITHOUT CapCut!)"
+title: "How to Edit Instagram Reels in 10 Minutes (No CapCut)"
 youtube: https://www.youtube.com/watch?v=FL0NnrD9JT4
 length: 30 min
 summary: Build a polished 12-15 second listing Reel right inside Instagram: import, trim, hook, captions, music, cover and post, with practice clips and a printable guide.

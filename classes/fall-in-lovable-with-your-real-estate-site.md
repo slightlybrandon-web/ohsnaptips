@@ -1,5 +1,5 @@
 ---
-title: Fall in Lovable with Your Real Estate Site
+title: "Build a Real Estate Website With AI (Lovable Tutorial)"
 youtube: https://www.youtube.com/watch?v=Tiobia1U4h0
 length: 1 hr 7 min
 summary: Use AI to design a custom, lead-generating real estate website and connect it to your KW agent site and IDX search.

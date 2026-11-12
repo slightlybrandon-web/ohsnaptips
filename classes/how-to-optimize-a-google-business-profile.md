@@ -1,5 +1,5 @@
 ---
-title: "How To Optimize A Google Business Profile"
+title: "How to Optimize Your Google Business Profile With Gemini AI"
 youtube: https://www.youtube.com/watch?v=YDm7XTYFjRY
 length: 68 min
 summary: Pair Gemini AI in your KW Workspace with your Google Business Profile to boost local rankings, post with Gemini, book appointments and capture leads automatically.

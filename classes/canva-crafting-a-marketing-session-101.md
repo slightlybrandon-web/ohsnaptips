@@ -1,5 +1,5 @@
 ---
-title: "Canva Crafting: A Marketing Session 101"
+title: "Canva for Marketing: Brand Kit, AI Design Tools & Templates"
 youtube: https://www.youtube.com/watch?v=2WPRLQZs42w
 length: 52 min
 summary: Get the most out of your free KW Canva Enterprise account: sync MLS listings, set up your brand kit, use AI design tools and export to KW Command.
