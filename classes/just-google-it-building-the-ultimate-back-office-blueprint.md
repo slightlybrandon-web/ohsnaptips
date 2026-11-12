@@ -24,3 +24,19 @@ Most real estate agents aren't short on leads. They are short on leverage. If en
 3. A desire to buy your time back
 
 Check the video description on YouTube for links to download any templates mentioned in the class.
+
+## Quick guide
+
+1. **Use your own Gmail for anything you want to keep.** Your KW Google Workspace is great for tools and unlimited Drive storage, but KW controls it. Set up your Google Business Profile and any YouTube content on your own Gmail account, and add your KW account as a manager or collaborator.
+2. **Put everything on one calendar.** Open **calendar.google.com** while signed in to your KW account. Booking pages only work if you block your time there, otherwise you look available all the time.
+3. **Create a booking page.** In Google Calendar choose **Create**, then **Appointment schedule**. Set the hours you want to be booked, a limit on how far ahead people can book (14 days), a minimum notice (4 hours), a 30 minute buffer between appointments, and make phone number a required field. Copy the booking link when you're done.
+4. **Let Gemini write your confirmation email.** Ask Gemini for a booking confirmation, tell it to remove times and locations, and paste the result into the description.
+5. **Turn on Gmail templates.** Go to **Settings**, then **See all settings**, then **Advanced**, and enable **Templates**. Write an email you send often, such as an FAQ for buyers, then use the three-dot menu and choose **Templates**, then **Save draft as template**. Make versions for sellers and renters too.
+6. **Filter your inbox.** In Gmail create a filter, for example sending all email from one person into a folder. In Command's settings you can also connect your Gmail so emails show up on each contact's timeline.
+7. **Build a client questionnaire in Google Forms.** Ask Gemini for question ideas, then add them to a blank form: full name and phone number (required), preferred way to be contacted and what they need. Include questions about interests as well as basics. Click **Publish**, shorten the link and share it, or add it to your booking page.
+8. **Create a Drive folder for each client.** Name it by address and client name, share the link and keep photos, contracts and scans together. Scan paperwork from the Drive app with **+**, then **Scan**, then adjust and upload.
+9. **Sync contacts to your phone.** On your phone, add your KW account under **Settings**, then **Mail accounts**, and toggle **Contacts** on.
+10. **Use Gemini and Notebook.** Gemini in your KW workspace can generate images and hold reusable instructions in **Gems**, and **Notebook** can turn sources you add into a slide deck. Remember that a work account is visible to the organization, so keep personal things out of it.
+11. **Back up your data regularly.** Export your Command database on a schedule, and tell your market center before you leave so you can move your work out first.
+
+> Test every form, link and email by sending it to yourself or a friend first.
