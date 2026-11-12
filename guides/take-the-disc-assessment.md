@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=oNpojy9SV_A
 summary: Where to find the DiSC instructions and how to complete the personality assessment.
 topic: Training
 date: 2022-10-23
+draft: true
 ---
 
 The DiSC personality assessment helps you learn how you interact with other people and how they interact with you, so you can build better working relationships.

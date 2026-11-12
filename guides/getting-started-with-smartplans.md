@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=8vviifqABek
 summary: Download SmartPlans from the library, edit them, assign contacts, and automate them with trigger events.
 topic: KW Command
 date: 2022-10-28
+draft: true
 ---
 
 SmartPlans automate your follow-up so you can save time. Here is how to download, edit, assign and automate them.

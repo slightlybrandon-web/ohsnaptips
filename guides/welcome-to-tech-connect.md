@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=9_FxZELK8bU
 summary: A tour of the accounts in your UpTech Pro paperwork, from your MyKW login to your Command website and marketing tools.
 topic: Training
 date: 2022-10-18
+draft: true
 ---
 
 Welcome to Tech Connect. This guide walks through the accounts you will find in the **UpTech Pro paperwork** that was emailed to you. UpTech Pro is the company that sets up all of your accounts.

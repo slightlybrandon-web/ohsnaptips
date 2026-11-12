@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=Zmy-3zXORJ0
 summary: Fill out your KW Command marketing profile (photo, bio, contact info, compliance links and social channels) so everything you send looks consistent.
 topic: KW Command
 date: 2022-09-03
+draft: true
 ---
 
 Your marketing profile feeds your SmartPlans, campaigns, consumer app and more, so keep it accurate.

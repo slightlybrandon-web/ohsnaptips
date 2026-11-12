@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=wsgh6dtSmOk
 summary: Walk through adding an offer, managing the commission, editing agent payments and submitting your commission request to your Market Center in KW Command.
 topic: KW Command
 date: 2022-11-05
+draft: true
 ---
 
 How to get your commission request submitted to your Market Center from the Opportunities applet in KW Command.

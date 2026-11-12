@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=kiY9RyaExto
 summary: Subscribe to Twilio in the Command Marketplace, claim a phone number and set up call forwarding so you can text clients automatically.
 topic: KW Command
 date: 2022-09-04
+draft: true
 ---
 
 Twilio is a text messaging service that helps you leverage your thumbs, so you don't have to send repeated messages yourself.

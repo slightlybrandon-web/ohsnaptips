@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=MnMrSxwfw80
 summary: How the Red File safety procedure works when you feel unsafe showing a property.
 topic: Training
 date: 2022-10-22
+draft: true
 ---
 
 Safety comes first at KW Memorial. This guide covers the **Red File**, the procedure that helps you stay safe when you are out showing homes.

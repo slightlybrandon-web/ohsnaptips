@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=AGS-uIYrZnI
 summary: Build a newsletter email from a template in the Designs applet, add market stats, a spotlight and a call to action, then preview and save it.
 topic: KW Command
 date: 2022-10-27
+draft: true
 ---
 
 Design newsletters, open house emails, listing emails and more with the Designs applet. This example builds a "Neighborhood Spotlight" newsletter.

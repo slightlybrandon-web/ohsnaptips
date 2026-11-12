@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=y0siBXar-cY
 summary: Set up your marketing profile, connect your e-signature accounts and get a tour of every Command applet.
 topic: KW Command
 date: 2022-10-26
+draft: true
 ---
 
 Command is your real estate partner. Here is how to get set up and what each applet does.

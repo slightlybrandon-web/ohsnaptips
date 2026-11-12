@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=0beG4EgtcDk
 summary: Cancel a KW Marketplace app subscription in a few clicks.
 topic: KW Command
 date: 2022-11-01
+draft: true
 ---
 
 Done with an app you added from the KW Marketplace? Here is how to remove it by cancelling the subscription.

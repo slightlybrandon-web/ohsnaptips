@@ -4,6 +4,7 @@ youtube: https://www.youtube.com/watch?v=94Wflp5lDyQ
 summary: The required HAR courses for new agents (Matrix, CMA Price It Right and orientation) and how to sign up for them.
 topic: Training
 date: 2022-10-24
+draft: true
 ---
 
 Here are the HAR courses you need to take to get your real estate business ready, and how to register for each one.
