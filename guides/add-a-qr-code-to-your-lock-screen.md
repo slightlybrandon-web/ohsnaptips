@@ -1,5 +1,5 @@
 ---
-title: Add a QR Code to Your Lock Screen
+title: How to Add a QR Code to Your Lock Screen (iPhone & Android)
 youtube: https://www.youtube.com/watch?v=yf-ctBrA8q4
 summary: Put your contact QR code on your phone's lock screen or home screen so clients can scan it on the spot.
 topic: Tools & Phone
