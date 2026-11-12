@@ -204,3 +204,7 @@ nav a:hover { color: #9db8ff; }
 .home-search { display: flex; gap: .6rem; margin-top: 1.2rem; align-items: center; }
 .home-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; padding: .4rem .2rem; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.more-link { margin: 1.2rem 0 0; font-weight: 700; }
+.more-link a { color: #2F66F0; text-decoration: none; }
+.more-link a:hover { text-decoration: underline; }

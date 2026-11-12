@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, ex
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, shortCard, slugify, youtubeId, ytWatch, tipBox } from './util.js';
+import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, shortCard, slugify, youtubeId, ytWatch, tipBox, TIP_URL } from './util.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
@@ -92,7 +92,7 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
     <span class="kicker">How-to guides + video</span>
     <h1>Straight &amp; to the point.</h1>
     <p>Quick tech how-tos you can watch and follow along, plus full-length classes. Every guide comes with a video and clear, numbered steps.</p>
-    <div class="hero-cta"><a class="btn" href="/guides/">Browse guides</a>${liveShorts.length ? '<a class="btn btn-outline-light" href="/shorties/">Browse Shorties</a>' : ''}${liveClasses.length ? '<a class="btn btn-outline-light" href="/classes/">Browse classes</a>' : `<a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a>`}</div>
+    <div class="hero-cta"><a class="btn" href="/browse/">Browse all</a></div>
   </div>
   <div class="hero-art"><div class="logo-stage" id="logo-stage" role="img" aria-label="Oh Snap Tips logo: a finger snap with blue snap lines">
     <img class="ls ls-o" src="/img/logo-ohsnap.png" alt="" width="1000" height="568">
@@ -127,7 +127,7 @@ st.addEventListener('click',play);play();})();
 
 const topicNames = [...new Set(live0().map((g) => g.topic).filter(Boolean))];
 const chips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`;
-const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides" autocomplete="off" aria-label="Search guides"></label>${chips}<p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
+const makeSearch = (chips, ph) => `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="${ph}" autocomplete="off" aria-label="${ph}"></label>${chips}<p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
 <script>
 document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes,#shorties'));
 var topic='';var chips=[].slice.call(document.querySelectorAll('.chip'));
@@ -136,6 +136,10 @@ secs.forEach(function(sec){var any=[].slice.call(sec.querySelectorAll('.card[dat
 if(latest)latest.style.display=(v||topic)?'none':'';nores.hidden=!((v||topic)&&!shown);}
 q.addEventListener('input',run);chips.forEach(function(b){b.addEventListener('click',function(){topic=b.getAttribute('data-t');chips.forEach(function(x){x.classList.toggle('on',x===b)});run();});});var mq=new URLSearchParams(location.search).get('q');if(mq){q.value=mq;run();}});
 </script>`;
+
+const searchBar = makeSearch(chips, 'Search guides');
+const browseChips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${liveClasses.length ? '<button type="button" class="chip" data-t="Classes">Classes</button>' : ''}${liveShorts.length ? '<button type="button" class="chip" data-t="Shorties">Shorties</button>' : ''}${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`;
+const browseSearch = makeSearch(browseChips, 'Search guides, classes and Shorties');
 
 const pageHead = (title, sub) => `<section class="wrap page-head"><h1 class="page-title">${title}</h1><p class="section-sub">${sub}</p></section>`;
 
@@ -156,22 +160,29 @@ const featured = top
     ${alsoNew.length ? `<section class="wrap"><h2 class="section-title">Also new</h2><div class="grid">${alsoNew.map(cardOf).join('')}</div></section>` : ''}`
   : `<section class="wrap latest"><h2 class="section-title">Guides are on the way</h2><p>New how-to guides and videos are coming soon.</p></section>`;
 
-const about = `<section class="wrap about"><h2 class="section-title">What is Oh Snap Tips?</h2><p>A growing library of quick, no-fluff tech how-tos and full-length classes. Every video comes with a written step-by-step guide, so you can watch it, read it, or do both. Made by Brandon Lara.</p>
-  <form class="search home-search" action="/guides/" method="get" role="search"><label class="sr" for="hq">Search guides</label><input id="hq" name="q" type="search" placeholder="Search all guides" autocomplete="off"><button class="btn btn-sm" type="submit">Search</button></form></section>`;
+const about = `<section class="wrap about"><h2 class="section-title">What is Oh Snap Tips?</h2><p>A growing library of quick, no-fluff tech how-tos and full-length classes. Every video comes with a written step-by-step guide, so you can watch it, read it, or do both. Made by <a href="https://www.instagram.com/tipsbybrandon/" target="_blank" rel="noopener">Brandon Lara (@tipsbybrandon)</a>.</p>
+  <form class="search home-search" action="/browse/" method="get" role="search"><label class="sr" for="hq">Search</label><input id="hq" name="q" type="search" placeholder="Search guides, classes and Shorties" autocomplete="off"><button class="btn btn-sm" type="submit">Search</button></form></section>`;
 
-const tile = (href, name, count, blurb) => `<a class="tile" href="${href}"><span class="tile-count">${count}</span><h3>${name}</h3><p>${blurb}</p></a>`;
-const browse = `<section class="wrap"><h2 class="section-title">Browse</h2><div class="browse">${[
-  tile('/guides/', 'Guides', liveFull.length, 'Step-by-step how-tos with a video for each one.'),
-  liveClasses.length ? tile('/classes/', 'Classes', liveClasses.length, 'Full-length sessions with notes and downloads.') : '',
-  liveShorts.length ? tile('/shorties/', 'Shorties', liveShorts.length, 'Quick tips in under a minute.') : '',
-].join('')}</div></section>`;
+const shortsRow = liveShorts.length
+  ? `<section class="wrap"><h2 class="section-title">Shorties</h2><p class="section-sub">Quick tips in under a minute. Every Shorty has a written guide too.</p><div class="grid grid-shorts">${liveShorts.slice(0, 4).map(shortCard).join('')}</div><p class="more-link"><a href="/shorties/">See all Shorties &rarr;</a></p></section>`
+  : '';
+
+const homeTip = `<section class="wrap"><div class="tipjar"><p><strong>Enjoying Oh Snap Tips?</strong> If a guide or class saved you time, you can buy me a coffee. It helps me keep making these.</p><a class="btn btn-sm" href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Buy me a coffee</a></div></section>`;
 
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
   description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
-  body: hero + heroScript + featured + browse + about,
+  body: hero + heroScript + featured + shortsRow + about + homeTip,
 }));
 
+write('browse/index.html', page({
+  env, origin, path: '/browse/', title: 'Browse all',
+  description: 'Every Oh Snap Tips guide, class and Shorty in one place.',
+  body: pageHead('Browse all', 'Search everything, or pick a topic.') + browseSearch +
+    (liveClasses.length ? `<section id="classes" class="wrap"><h2 class="section-title">Classes</h2><div class="grid">${liveClasses.map(classCard).join('')}</div></section>` : '') +
+    (liveShorts.length ? `<section id="shorties" class="wrap"><h2 class="section-title">Shorties</h2><div class="grid grid-shorts">${liveShorts.map(shortCard).join('')}</div></section>` : '') +
+    `<section id="guides" class="wrap"><h2 class="section-title">Guides</h2><div class="grid">${rest.map(guideCard).join('')}</div></section>`,
+}));
 write('guides/index.html', page({
   env, origin, path: '/guides/', title: 'All guides',
   description: 'Every Oh Snap Tips how-to guide, with a video and clear numbered steps.',
@@ -229,7 +240,7 @@ for (const c of liveClasses) {
 // 404, sitemap
 write('404.html', page({ env, origin, path: '/404.html', title: 'Page not found',
   body: '<div class="wrap prose"><h1>Page not found</h1><p><a href="/">Back to the home page</a> · <a href="/guides/">All guides</a></p></div>' }));
-write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url><url><loc>${origin}/guides/</loc></url>${liveClasses.length ? `<url><loc>${origin}/classes/</loc></url>` : ''}${liveShorts.length ? `<url><loc>${origin}/shorties/</loc></url>` : ''}${
+write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url><url><loc>${origin}/browse/</loc></url><url><loc>${origin}/guides/</loc></url>${liveClasses.length ? `<url><loc>${origin}/classes/</loc></url>` : ''}${liveShorts.length ? `<url><loc>${origin}/shorties/</loc></url>` : ''}${
   live.map((g) => `<url><loc>${esc(origin)}/guide/${esc(g.slug)}/</loc><lastmod>${g.created_at.slice(0, 10)}</lastmod></url>`).join('')}${
   liveClasses.map((c) => `<url><loc>${esc(origin)}/class/${esc(c.slug)}/</loc><lastmod>${c.created_at.slice(0, 10)}</lastmod></url>`).join('')}</urlset>`);
 write('.nojekyll', '');
