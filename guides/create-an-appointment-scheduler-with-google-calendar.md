@@ -1,10 +1,9 @@
 ---
 title: How to Create an Appointment Scheduler with Google Calendar (Free)
-youtube: https://www.youtube.com/watch?v=yhJUXzISznQ
+youtube: https://www.youtube.com/watch?v=ATZGyva14Po
 summary: Set up a free booking page in Google Calendar so clients can pick a time with you, with no back-and-forth emails.
 topic: Google
 date: 2026-11-12
-draft: true
 ---
 
 Google Calendar can give you a free booking page. Clients pick an open time, and it lands on your calendar automatically. Share the link by text or email, add it to your website, or put it in your email signature.
