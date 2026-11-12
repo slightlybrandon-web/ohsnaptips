@@ -138,7 +138,7 @@ nav a:hover { color: #9db8ff; }
 
 @media (max-width: 860px) {
   .hero-grid { grid-template-columns: 1fr; min-height: 0; padding-top: 2.5rem; }
-  .hero-copy { padding-bottom: 0; }
+  .hero-copy { padding-bottom: 3rem; }
   .hero-art { padding: 0 0 1.5rem; order: -1; }
   .latest-grid { grid-template-columns: 1fr; gap: 1.4rem; }
   nav a:not(.btn) { display: none; }
