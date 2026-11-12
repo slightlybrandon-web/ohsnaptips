@@ -181,7 +181,7 @@ ${extraHead}
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
   <img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136">
-  <p>Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · <a href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Tip jar</a> · © ${new Date().getFullYear()}</p>
+  <p>Business tech how-tos. Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · <a href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Tip jar</a> · © ${new Date().getFullYear()}</p>
 </div></footer>
 </body>
 </html>`;

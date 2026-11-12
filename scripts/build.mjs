@@ -90,8 +90,8 @@ const rest = liveFull;
 const hero = `<section class="hero"><div class="wrap hero-grid">
   <div class="hero-copy">
     <span class="kicker">How-to guides + video</span>
-    <h1>Straight &amp; to the point.</h1>
-    <p>Quick tech how-tos you can watch and follow along, plus full-length classes. Every guide comes with a video and clear, numbered steps.</p>
+    <h1>Business tech how-tos.<br>Straight &amp; to the point.</h1>
+    <p>Quick tech and marketing how-tos for business owners: Google, Canva, your phone and more. Watch the video, then follow the written steps. Plus full-length classes.</p>
     <div class="hero-cta"><a class="btn" href="/browse/">Browse all</a></div>
   </div>
   <div class="hero-art"><div class="logo-stage" id="logo-stage" role="img" aria-label="Oh Snap Tips logo: a finger snap with blue snap lines">
@@ -160,7 +160,7 @@ const featured = top
     ${alsoNew.length ? `<section class="wrap"><h2 class="section-title">Also new</h2><div class="grid">${alsoNew.map(cardOf).join('')}</div></section>` : ''}`
   : `<section class="wrap latest"><h2 class="section-title">Guides are on the way</h2><p>New how-to guides and videos are coming soon.</p></section>`;
 
-const about = `<section class="wrap about"><h2 class="section-title">What is Oh Snap Tips?</h2><p>A growing library of quick, no-fluff tech how-tos and full-length classes. Every video comes with a written step-by-step guide, so you can watch it, read it, or do both. Made by <a href="https://www.instagram.com/tipsbybrandon/" target="_blank" rel="noopener">Brandon Lara (@tipsbybrandon)</a>.</p>
+const about = `<section class="wrap about"><h2 class="section-title">What is Oh Snap Tips?</h2><p>A growing library of quick, no-fluff business tech how-tos and full-length classes. Every video comes with a written step-by-step guide, so you can watch it, read it, or do both. Made by <a href="https://www.instagram.com/tipsbybrandon/" target="_blank" rel="noopener">Brandon Lara (@tipsbybrandon)</a>.</p>
   <form class="search home-search" action="/browse/" method="get" role="search"><label class="sr" for="hq">Search</label><input id="hq" name="q" type="search" placeholder="Search guides, classes and Shorties" autocomplete="off"><button class="btn btn-sm" type="submit">Search</button></form></section>`;
 
 const shortsRow = liveShorts.length
@@ -171,7 +171,7 @@ const homeTip = `<section class="wrap"><div class="tipjar"><p><strong>Enjoying O
 
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
-  description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
+  description: 'Business tech how-tos with video walkthroughs and step-by-step guides from Oh Snap Tips. Straight and to the point.',
   body: hero + heroScript + featured + shortsRow + about + homeTip,
 }));
 
