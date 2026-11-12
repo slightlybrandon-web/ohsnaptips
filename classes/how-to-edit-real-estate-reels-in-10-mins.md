@@ -37,7 +37,7 @@ Download these before you press play, and save the practice clips to your camera
 
 > Menu names can move slightly between Instagram updates. If a button isn't where this guide says, look for the same words nearby. The steps and the order don't change.
 
-## Step by step
+## Quick guide
 
 1. **Start the Reel and import your clips.** Tap **+**, then **Reel**, then pick your clips in tour order: Front Entrance, Living Room, Kitchen, Staircase, Twilight Pool. Check that each subject sits in the middle of the frame. If you use a landscape photo, pinch to fill the screen and drag to re-center it instead of accepting the default crop.
 2. **Trim it tight.** Tap **Edit video** and drag each clip's end handle until it runs about 2-3 seconds. Cut while the camera is moving. The first and last clips can run a touch longer.

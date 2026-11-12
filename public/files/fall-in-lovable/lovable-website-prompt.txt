@@ -1,0 +1,68 @@
+Lovable AI Website Prompt Template for Real Estate Agents
+
+Class instructions: Copy the prompt below and paste it into Lovable. Replace each bracketed placeholder [Insert Your Preference Here] with your business details before submitting.
+
+----------------------------------------
+
+Build a real estate website for an agent named [Insert Your Preference Here].
+
+Design System & Aesthetic:
+- Clean, minimal, high-end design.
+- Color palette: [Choose 2 Primary Color], and a minimal pop of [Insert Your 3rd Color Preference Here] used strictly for primary CTA buttons, hover states, and key highlights.
+- Typography: Clean sans-serif (e.g., Inter or Plus Jakarta Sans), large bold headers, generous whitespace, sharp/sleek card components.
+
+Page Layout & Sections:
+
+1. Navigation Bar (Sticky):
+   - Logo/Name: "[Insert Here]"
+   - Links: "About", "Property Search", "Buying Guide", "Selling Guide", "Contact"
+   - Header CTA: "Search Homes" button (styled in accent color) linking directly to external IDX link: [Insert Your Site Address Here] (opens in a new tab).
+
+2. Hero Section:
+   - Headline: "[Insert Your Preference Here]"
+   - Subheadline: "[Insert Your Preference Here]"
+   - Primary CTA Button (Solid Accent Color): "Search Properties" -> Opens [Insert Your Preference Here] in a new tab but asks for users Name and Email before redirect.
+   - Secondary CTA Button (Outline Black): "Free Home Guides" -> Smooth scroll to the Guides section.
+
+3. About / Bio Section:
+   - Layout featuring space for a professional headshot.
+   - Bio Text:
+     "[Insert Your Text Here]"
+
+4. Home Search / IDX Section:
+   - An attractive card section inviting users to search live property listings.
+   - Headline: "Find Your Next Home in [Insert Your Location Preference Here]"
+   - Interactive search bar mock element with Location, Price Range, and Property Type dropdowns that acts as a launcher redirecting to [Insert Your Agent Site Here]. Before the redirect it will capture the leads information.
+
+5. Lead Magnet / Gated Home Guides Section:
+   - Showcase cards for downloadable real estate guides.
+
+   Guide 1:
+   - Title: "[Insert Your Title Here]"
+   - Description: "[Insert Your Description Here]"
+   - Resource Link / PDF URL: [Insert Your PDF in the upload or add a link or request for one to be built]
+
+   Guide 2:
+   - Title: "[Insert Your Title Here]"
+   - Description: "[Insert Your Description Here]"
+   - Resource Link / PDF URL: [Insert Your PDF in the upload or add a link or request for one to be built]
+
+   Lead Gate Mechanism (Modal Popup):
+   - Clicking "Download Guide" or "Read Guide" triggers a sleek modal/popup window.
+   - Lead Form Requesting: First Name, Last Name, Email, Phone Number, and a dropdown/radio selector for "I am looking to: Buy / Sell / Both / Just Browsing".
+   - Upon submitting the form, present a success message ("Thank you! Your guide is on its way.") and unlock direct access/download to the guide.
+
+6. Contact & Consultation Section:
+   - Contact Form: First Name, Last Name, Email, Phone Number, Message, and "Send Message" CTA button.
+   - Agent Contact Details:
+     * Phone: [Insert Your Phone Number Here]
+     * Email: [Insert Your Email Here]
+     * Office Address / Brokerage: Keller Williams Memorial 1220 Augusta Drive Suite 300 Houston, TX 77057
+     * License #: [Insert Your Agent License Number Here]
+
+7. Footer:
+   - Copyright © [Insert Your Company Name Here]. All rights reserved.
+   - Equal Housing Opportunity logo & required brokerage legal disclaimers.
+   - Social Media Links: [Insert Your Social Media Links Here]
+   - Information about Brokerage Services: [Insert Your IABS Here]
+   - Texas Real Estate Commission Consumer Protection Notice: [Insert Your CPN Here]

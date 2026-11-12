@@ -74,7 +74,7 @@ const RE = {
 const startsBlock = (l) => Object.values(RE).some((r) => r.test(l));
 
 // Supports: ## headings, - bullets, 1. numbered steps, > tips, ![alt](url) images,
-// **bold**, *italic*, `code`, [links](https://...). Everything else is escaped.
+// **bold**, *italic*, `code`, [links](https://...), and ``` fenced blocks (copyable). Everything else is escaped.
 export function renderMarkdown(src = '') {
   const lines = String(src).replace(/\r/g, '').split('\n');
   const out = [];
@@ -83,7 +83,14 @@ export function renderMarkdown(src = '') {
     const line = lines[i];
     if (!line.trim()) { i++; continue; }
     let m;
-    if ((m = line.match(RE.heading))) {
+    if (line.trim().startsWith('```')) {
+      // Fenced block (a prompt or snippet people copy): shown in a box with a Copy button.
+      const code = [];
+      i++;
+      while (i < lines.length && !lines[i].trim().startsWith('```')) { code.push(lines[i]); i++; }
+      i++;
+      out.push(`<div class="promptbox"><button type="button" class="copybtn" onclick="var b=this,t=b.parentNode.querySelector('pre').innerText;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent='Copied!'},function(){var r=document.createRange();r.selectNodeContents(b.parentNode.querySelector('pre'));var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Press Ctrl/Cmd+C'});setTimeout(function(){b.textContent='Copy prompt'},2500)">Copy prompt</button><pre>${esc(code.join('\n'))}</pre></div>`);
+    } else if ((m = line.match(RE.heading))) {
       const lvl = Math.max(2, m[1].length);
       out.push(`<h${lvl}>${inline(m[2])}</h${lvl}>`); i++;
     } else if ((m = line.match(RE.image))) {

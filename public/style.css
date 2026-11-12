@@ -182,3 +182,9 @@ nav a:hover { color: #9db8ff; }
 .card-short .thumb { aspect-ratio: 9 / 16; }
 .card-short .card-body { padding: .9rem 1rem 1.1rem; }
 .card-short h3 { font-size: 1rem; }
+
+/* Copyable prompt box */
+.promptbox { position: relative; margin: 1.4rem 0; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); }
+.promptbox pre { margin: 0; padding: 3.2rem 1.2rem 1.2rem; white-space: pre-wrap; word-break: break-word; font: .88rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; max-height: 28rem; overflow: auto; }
+.copybtn { position: absolute; top: .7rem; right: .7rem; font: 700 .85rem/1 var(--display); background: #2F66F0; color: #fff; border: 0; border-radius: 999px; padding: .6rem 1.1rem; cursor: pointer; }
+.copybtn:hover { background: #1f4fd0; }
