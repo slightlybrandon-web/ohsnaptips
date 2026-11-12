@@ -92,7 +92,7 @@ const hero = `<section class="hero"><div class="wrap hero-grid">
     <span class="kicker">How-to guides + video</span>
     <h1>Straight &amp; to the point.</h1>
     <p>Quick tech how-tos you can watch and follow along, plus full-length classes. Every guide comes with a video and clear, numbered steps.</p>
-    <div class="hero-cta"><a class="btn" href="#guides">Browse guides</a>${liveShorts.length ? '<a class="btn btn-outline-light" href="#shorties">Browse Shorties</a>' : ''}${liveClasses.length ? '<a class="btn btn-outline-light" href="#classes">Browse classes</a>' : `<a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a>`}</div>
+    <div class="hero-cta"><a class="btn" href="/guides/">Browse guides</a>${liveShorts.length ? '<a class="btn btn-outline-light" href="/shorties/">Browse Shorties</a>' : ''}${liveClasses.length ? '<a class="btn btn-outline-light" href="/classes/">Browse classes</a>' : `<a class="btn btn-outline-light" href="${esc(yt)}" target="_blank" rel="noopener">Watch on YouTube</a>`}</div>
   </div>
   <div class="hero-art"><div class="logo-stage" id="logo-stage" role="img" aria-label="Oh Snap Tips logo: a finger snap with blue snap lines">
     <img class="ls ls-o" src="/img/logo-ohsnap.png" alt="" width="1000" height="568">
@@ -126,42 +126,69 @@ st.addEventListener('click',play);play();})();
 </script>`;
 
 const topicNames = [...new Set(live0().map((g) => g.topic).filter(Boolean))];
-const chips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}${liveClasses.length ? '<button type="button" class="chip" data-t="Classes">Classes</button>' : ''}${liveShorts.length ? '<button type="button" class="chip" data-t="Shorties">Shorties</button>' : ''}</div>`;
-const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides and classes" autocomplete="off" aria-label="Search guides and classes"></label>${chips}<p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
+const chips = `<div class="chips" role="group" aria-label="Browse by topic"><button type="button" class="chip on" data-t="">All</button>${topicNames.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`;
+const searchBar = `<section class="wrap search-wrap"><label class="search" for="q"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a6376" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search guides" autocomplete="off" aria-label="Search guides"></label>${chips}<p id="nores" class="nores" hidden>Nothing found. Try a different word, like "Facebook", "Command" or "Google".</p></section>
 <script>
 document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.card[data-s]'));var nores=document.getElementById('nores');var latest=document.querySelector('.latest');var secs=[].slice.call(document.querySelectorAll('#guides,#classes,#shorties'));
 var topic='';var chips=[].slice.call(document.querySelectorAll('.chip'));
 function run(){var v=q.value.trim().toLowerCase();var words=v.split(/\\s+/).filter(Boolean);var shown=0;cards.forEach(function(c){var s=c.getAttribute('data-s');var ok=words.every(function(w){return s.indexOf(w)>-1})&&(!topic||(c.getAttribute('data-t')||'').split('|').indexOf(topic)>-1);c.style.display=ok?'':'none';if(ok)shown++;});
 secs.forEach(function(sec){var any=[].slice.call(sec.querySelectorAll('.card[data-s]')).some(function(c){return c.style.display!=='none'});sec.style.display=any?'':'none';});
 if(latest)latest.style.display=(v||topic)?'none':'';nores.hidden=!((v||topic)&&!shown);}
-q.addEventListener('input',run);chips.forEach(function(b){b.addEventListener('click',function(){topic=b.getAttribute('data-t');chips.forEach(function(x){x.classList.toggle('on',x===b)});run();var g=document.getElementById('guides')||document.getElementById('classes');});});});
+q.addEventListener('input',run);chips.forEach(function(b){b.addEventListener('click',function(){topic=b.getAttribute('data-t');chips.forEach(function(x){x.classList.toggle('on',x===b)});run();});});var mq=new URLSearchParams(location.search).get('q');if(mq){q.value=mq;run();}});
 </script>`;
 
-const featured = latest
-  ? `<section class="wrap latest"><span class="kicker">Latest guide</span><div class="latest-grid">
-      <div>${latest.youtube_id ? videoEmbed(latest.youtube_id, latest.title, latest.short) : ''}</div>
-      <div class="latest-copy"><h2><a href="/guide/${esc(latest.slug)}/">${esc(latest.title)}</a></h2>
-      ${latest.summary ? `<p>${esc(latest.summary)}</p>` : ''}
-      <a class="btn" href="/guide/${esc(latest.slug)}/">Read the guide</a></div>
-    </div></section>`
+const pageHead = (title, sub) => `<section class="wrap page-head"><h1 class="page-title">${title}</h1><p class="section-sub">${sub}</p></section>`;
+
+// Newest video across classes and full guides; the next few sit under it.
+const kindOf = (x) => (classes.includes(x) ? 'class' : 'guide');
+const newest = [...liveClasses, ...liveFull].filter((x) => x.youtube_id).sort((a, b) => b.created_at.localeCompare(a.created_at));
+const top = newest[0];
+const alsoNew = newest.slice(1, 4);
+const cardOf = (x) => (kindOf(x) === 'class' ? classCard(x) : guideCard(x));
+
+const featured = top
+  ? `<section class="wrap latest"><span class="kicker">Newest</span><div class="latest-grid">
+      <div>${videoEmbed(top.youtube_id, top.title)}</div>
+      <div class="latest-copy"><h2><a href="/${kindOf(top)}/${esc(top.slug)}/">${esc(top.title)}</a></h2>
+      ${top.summary ? `<p>${esc(top.summary)}</p>` : ''}
+      <a class="btn" href="/${kindOf(top)}/${esc(top.slug)}/">${kindOf(top) === 'class' ? 'Open the class' : 'Read the guide'}</a></div>
+    </div></section>
+    ${alsoNew.length ? `<section class="wrap"><h2 class="section-title">Also new</h2><div class="grid">${alsoNew.map(cardOf).join('')}</div></section>` : ''}`
   : `<section class="wrap latest"><h2 class="section-title">Guides are on the way</h2><p>New how-to guides and videos are coming soon.</p></section>`;
 
-const classSection = liveClasses.length
-  ? `<section id="classes" class="wrap"><h2 class="section-title">Classes</h2><p class="section-sub">Full-length sessions. Watch the whole class and jump to the part you need.</p><div class="grid">${liveClasses.map(classCard).join('')}</div></section>`
-  : '';
+const about = `<section class="wrap about"><h2 class="section-title">What is Oh Snap Tips?</h2><p>A growing library of quick, no-fluff tech how-tos and full-length classes. Every video comes with a written step-by-step guide, so you can watch it, read it, or do both. Made by Brandon Lara.</p>
+  <form class="search home-search" action="/guides/" method="get" role="search"><label class="sr" for="hq">Search guides</label><input id="hq" name="q" type="search" placeholder="Search all guides" autocomplete="off"><button class="btn btn-sm" type="submit">Search</button></form></section>`;
 
-const shortSection = liveShorts.length
-  ? `<section id="shorties" class="wrap"><h2 class="section-title">Shorties</h2><p class="section-sub">Quick tips in under a minute. Every Shorty has a written guide too.</p><div class="grid grid-shorts">${liveShorts.map(shortCard).join('')}</div></section>`
-  : '';
-
-const grid = rest.length
-  ? `<section id="guides" class="wrap"><h2 class="section-title">All guides</h2><div class="grid">${rest.map(guideCard).join('')}</div></section>`
-  : '<div id="guides"></div>';
+const tile = (href, name, count, blurb) => `<a class="tile" href="${href}"><span class="tile-count">${count}</span><h3>${name}</h3><p>${blurb}</p></a>`;
+const browse = `<section class="wrap"><h2 class="section-title">Browse</h2><div class="browse">${[
+  tile('/guides/', 'Guides', liveFull.length, 'Step-by-step how-tos with a video for each one.'),
+  liveClasses.length ? tile('/classes/', 'Classes', liveClasses.length, 'Full-length sessions with notes and downloads.') : '',
+  liveShorts.length ? tile('/shorties/', 'Shorties', liveShorts.length, 'Quick tips in under a minute.') : '',
+].join('')}</div></section>`;
 
 write('index.html', page({
   env, origin, path: '/', title: 'How-to guides and videos',
   description: 'Step-by-step how-to guides with video walkthroughs from Oh Snap Tips. Straight and to the point.',
-  body: hero + heroScript + searchBar + featured + classSection + shortSection + grid,
+  body: hero + heroScript + featured + browse + about,
+}));
+
+write('guides/index.html', page({
+  env, origin, path: '/guides/', title: 'All guides',
+  description: 'Every Oh Snap Tips how-to guide, with a video and clear numbered steps.',
+  body: pageHead('All guides', 'Step-by-step how-tos. Search or pick a topic.') + searchBar +
+    `<section id="guides" class="wrap"><div class="grid">${rest.map(guideCard).join('')}</div></section>`,
+}));
+if (liveClasses.length) write('classes/index.html', page({
+  env, origin, path: '/classes/', title: 'Classes',
+  description: 'Full-length Oh Snap Tips classes with video, notes and downloads.',
+  body: pageHead('Classes', 'Full-length sessions. Watch the whole class and jump to the part you need.') +
+    `<section id="classes" class="wrap"><div class="grid">${liveClasses.map(classCard).join('')}</div></section>`,
+}));
+if (liveShorts.length) write('shorties/index.html', page({
+  env, origin, path: '/shorties/', title: 'Shorties',
+  description: 'Quick Oh Snap Tips in under a minute, each with a written guide.',
+  body: pageHead('Shorties', 'Quick tips in under a minute. Every Shorty has a written guide too.') +
+    `<section id="shorties" class="wrap"><div class="grid grid-shorts">${liveShorts.map(shortCard).join('')}</div></section>`,
 }));
 
 // Guide pages
@@ -172,7 +199,7 @@ for (const g of live) {
         '@context': 'https://schema.org', '@type': 'VideoObject', name: g.title, description: g.summary || g.title,
         thumbnailUrl: thumb(g.youtube_id), uploadDate: g.created_at, embedUrl: `https://www.youtube.com/embed/${g.youtube_id}`,
       }).replace(/</g, '\\u003c')}</script>` : '';
-  const body = `<article class="wrap prose"><p class="crumbs">${g.short ? '<a href="/#shorties">&larr; All Shorties</a>' : '<a href="/">&larr; All guides</a>'}</p>${g.short ? '<span class="badge">Shorty</span>' : ''}<h1>${esc(g.title)}</h1>
+  const body = `<article class="wrap prose"><p class="crumbs">${g.short ? '<a href="/shorties/">&larr; All Shorties</a>' : '<a href="/guides/">&larr; All guides</a>'}</p>${g.short ? '<span class="badge">Shorty</span>' : ''}<h1>${esc(g.title)}</h1>
     <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title, g.short) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}${tipBox()}</article>
     ${more.length ? `<section class="wrap"><h2 class="section-title">${g.short ? 'More Shorties' : 'More guides'}</h2><div class="grid${g.short ? ' grid-shorts' : ''}">${more.map(g.short ? shortCard : guideCard).join('')}</div></section>` : ''}`;
   write(`guide/${g.slug}/index.html`, page({
@@ -189,7 +216,7 @@ for (const c of liveClasses) {
         '@context': 'https://schema.org', '@type': 'VideoObject', name: c.title, description: c.summary || c.title,
         thumbnailUrl: thumb(c.youtube_id), uploadDate: c.created_at, embedUrl: `https://www.youtube.com/embed/${c.youtube_id}`,
       }).replace(/</g, '\\u003c')}</script>` : '';
-  const body = `<article class="wrap prose"><p class="crumbs"><a href="/#classes">&larr; All classes</a></p>
+  const body = `<article class="wrap prose"><p class="crumbs"><a href="/classes/">&larr; All classes</a></p>
     <span class="badge">Class${c.length ? ' · ' + esc(c.length) : ''}</span><h1>${esc(c.title)}</h1>
     <p class="meta">${fmtDate(c.created_at)}</p>${c.youtube_id ? videoEmbed(c.youtube_id, c.title) + `<p class="watch-yt"><a href="${ytWatch(c.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(c.body)}${tipBox()}</article>
     ${more.length ? `<section class="wrap"><h2 class="section-title">More classes</h2><div class="grid">${more.map(classCard).join('')}</div></section>` : ''}`;
@@ -201,8 +228,8 @@ for (const c of liveClasses) {
 
 // 404, sitemap
 write('404.html', page({ env, origin, path: '/404.html', title: 'Page not found',
-  body: '<div class="wrap prose"><h1>Page not found</h1><p><a href="/">Back to all guides</a></p></div>' }));
-write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url>${
+  body: '<div class="wrap prose"><h1>Page not found</h1><p><a href="/">Back to the home page</a> · <a href="/guides/">All guides</a></p></div>' }));
+write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url><url><loc>${origin}/guides/</loc></url>${liveClasses.length ? `<url><loc>${origin}/classes/</loc></url>` : ''}${liveShorts.length ? `<url><loc>${origin}/shorties/</loc></url>` : ''}${
   live.map((g) => `<url><loc>${esc(origin)}/guide/${esc(g.slug)}/</loc><lastmod>${g.created_at.slice(0, 10)}</lastmod></url>`).join('')}${
   liveClasses.map((c) => `<url><loc>${esc(origin)}/class/${esc(c.slug)}/</loc><lastmod>${c.created_at.slice(0, 10)}</lastmod></url>`).join('')}</urlset>`);
 write('.nojekyll', '');
