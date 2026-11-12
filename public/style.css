@@ -198,8 +198,9 @@ nav a:hover { color: #9db8ff; }
 .tile-count { display: inline-block; font: 800 .8rem/1 var(--display); color: #2F66F0; background: #eaf0fe; border-radius: 999px; padding: .35rem .7rem; }
 .tile h3 { margin: .8rem 0 .3rem; font: 800 1.35rem/1.2 var(--display); }
 .tile p { margin: 0; color: #5a6376; }
-.about { max-width: 46rem; }
+.about > * { max-width: 46rem; }
 .about p { font-size: 1.08rem; line-height: 1.65; }
+.about .home-search { margin-left: 0; margin-right: 0; }
 .home-search { display: flex; gap: .6rem; margin-top: 1.2rem; align-items: center; }
 .home-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; padding: .4rem .2rem; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
