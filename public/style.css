@@ -208,3 +208,17 @@ nav a:hover { color: #9db8ff; }
 .more-link { margin: 1.2rem 0 0; font-weight: 700; }
 .more-link a { color: #2F66F0; text-decoration: none; }
 .more-link a:hover { text-decoration: underline; }
+
+/* ---------- share box + embed pages ---------- */
+.share { margin: 2.5rem 0 0; padding: 1.25rem 1.4rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.share-title { margin: 0 0 .9rem; }
+.share-title span { color: var(--muted); font-size: .95rem; margin-left: .3rem; }
+.share-row { display: flex; flex-wrap: wrap; gap: .55rem; }
+.share-embed { margin-top: 1rem; }
+.share-embed summary { cursor: pointer; font-weight: 700; color: var(--blue-dark); }
+.share-embed p { color: var(--muted); font-size: .92rem; margin: .7rem 0; }
+.share-embed textarea { width: 100%; font: .82rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: .8rem; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); resize: vertical; margin-bottom: .6rem; }
+body.embed { background: #fff; }
+body.embed .prose { max-width: none; padding: 1rem 1.1rem 0; }
+body.embed .prose h1 { font-size: 1.6rem; }
+.embed-credit { text-align: center; color: var(--muted); font-size: .85rem; margin: 1rem 0 1.2rem; }

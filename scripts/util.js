@@ -187,6 +187,63 @@ ${extraHead}
 </html>`;
 }
 
+// Share box: native share sheet, copy link, social/email links, and copy-paste embed code.
+// `url` is the full public address of the page; `embedUrl` is its stripped-down embeddable twin.
+export function shareBox({ url, embedUrl, title, noun = 'guide' }) {
+  const u = encodeURIComponent(url);
+  const t = encodeURIComponent(title);
+  const iframe = `<iframe src="${embedUrl}" width="100%" height="820" style="border:0;max-width:760px" loading="lazy" title="${title.replace(/"/g, '&quot;')}"></iframe>`;
+  const link = (href, label) => `<a class="btn btn-sm btn-outline" href="${esc(href)}" target="_blank" rel="noopener">${label}</a>`;
+  return `<section class="share" aria-label="Share this ${noun}" data-url="${esc(url)}" data-title="${esc(title)}">
+  <p class="share-title"><strong>Share this ${noun}</strong> <span>Send it to a friend, a client or your team.</span></p>
+  <div class="share-row">
+    <button type="button" class="btn btn-sm share-native" hidden>Share&hellip;</button>
+    <button type="button" class="btn btn-sm btn-outline share-copy" data-copy="${esc(url)}" data-label="Copy link">Copy link</button>
+    ${link(`mailto:?subject=${t}&body=${t}%0A${u}`, 'Email')}
+    ${link(`https://www.facebook.com/sharer/sharer.php?u=${u}`, 'Facebook')}
+    ${link(`https://www.linkedin.com/sharing/share-offsite/?url=${u}`, 'LinkedIn')}
+    ${link(`https://twitter.com/intent/tweet?text=${t}&url=${u}`, 'X')}
+    ${link(`https://wa.me/?text=${t}%20${u}`, 'WhatsApp')}
+  </div>
+  <details class="share-embed"><summary>Embed on your own site or blog</summary>
+    <p>Paste this code into any page that accepts HTML (WordPress, Squarespace, Wix, Notion embeds, email landing pages).</p>
+    <textarea readonly rows="3" aria-label="Embed code">${esc(iframe)}</textarea>
+    <button type="button" class="btn btn-sm share-copy" data-copy="${esc(iframe)}" data-label="Copy embed code">Copy embed code</button>
+  </details>
+</section>
+<script>
+(function(){var box=document.currentScript.previousElementSibling;if(!box)return;
+var nat=box.querySelector('.share-native');
+if(navigator.share){nat.hidden=false;nat.addEventListener('click',function(){navigator.share({title:box.getAttribute('data-title'),url:box.getAttribute('data-url')}).catch(function(){})});}
+function fallback(txt,btn){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);btn.textContent=ok?'Copied!':'Press Ctrl/Cmd+C';}
+[].forEach.call(box.querySelectorAll('.share-copy'),function(b){b.addEventListener('click',function(){var txt=b.getAttribute('data-copy');
+(navigator.clipboard?navigator.clipboard.writeText(txt).then(function(){b.textContent='Copied!'},function(){fallback(txt,b)}):fallback(txt,b));
+setTimeout(function(){b.textContent=b.getAttribute('data-label')},2500)})});
+var ta=box.querySelector('textarea');if(ta)ta.addEventListener('focus',function(){ta.select()});})();
+</script>`;
+}
+
+// Bare page for iframes: no site header/footer, not indexed, points search engines at the real page.
+export function embedPage({ env, origin, title, canonicalPath, body }) {
+  const site = env.SITE_NAME || 'Oh Snap Tips';
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(title)} | ${esc(site)}</title>
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="${esc(origin + canonicalPath)}">
+<link rel="stylesheet" href="/style.css?v=${esc(env.CSS_V || '1')}">
+<base target="_blank">
+</head>
+<body class="embed">
+<main>${body}</main>
+<p class="embed-credit"><a href="${esc(origin + canonicalPath)}">View on ${esc(site)} &rarr;</a> · Tech tips &amp; how-tos for business owners</p>
+</body>
+</html>`;
+}
+
 export const TIP_URL = 'https://buymeacoffee.com/brandonlara';
 export const tipBox = () => `<div class="tipjar"><p><strong>Was this helpful?</strong> If it saved you time, you can say thanks with a tip. It helps me keep making these.</p><a class="btn btn-sm" href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Leave a tip</a></div>`;
 
