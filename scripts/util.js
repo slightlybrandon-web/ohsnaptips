@@ -134,7 +134,7 @@ export function shortCard(g) {
   const media = g.youtube_id
     ? `<div class="thumb"><img loading="lazy" src="${thumb(g.youtube_id)}" alt=""><span class="play" aria-hidden="true"></span></div>`
     : `<div class="thumb noimg" aria-hidden="true"><img loading="lazy" src="/img/burst.png" alt=""></div>`;
-  return `<a class="card card-short" data-s="${esc(g.search || '')}" data-t="${esc((g.topic ? g.topic + '|' : '') + 'Shorties')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><span class="badge">Shorty</span><h3>${esc(g.title)}</h3><span class="meta">${fmtDate(g.created_at)} · Short + guide</span></div></a>`;
+  return `<a class="card card-short" data-s="${esc(g.search || '')}" data-t="${esc((g.topic ? g.topic + '|' : '') + 'shorties')}" href="/guide/${esc(g.slug)}/">${media}<div class="card-body"><span class="badge">shorty</span><h3>${esc(g.title)}</h3><span class="meta">${fmtDate(g.created_at)} · Short + guide</span></div></a>`;
 }
 
 export function classCard(c) {
@@ -176,7 +176,7 @@ ${extraHead}
 <body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136"></a>
-  <nav><a href="/guides/">Guides</a>${env.HAS_SHORTS ? '<a href="/shorties/">Shorties</a>' : ''}${env.HAS_CLASSES ? '<a href="/classes/">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
+  <nav><a href="/guides/">Guides</a>${env.HAS_SHORTS ? '<a href="/shorties/">shorties</a>' : ''}${env.HAS_CLASSES ? '<a href="/classes/">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
