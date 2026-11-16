@@ -19,6 +19,6 @@ Most iPhone screen recordings come out silent because the microphone is off by d
 
 Your video saves to the **Photos** app.
 
-> Don't see the Record button? Go to Settings > Control Center and add **Screen Recording**.
+> **Pro tip:** Don't see the Record button? In Control Center, tap on the empty space until **Add a Control** appears, then add **Screen Recording**.
 
 Use it for quick tutorials, client walkthroughs, or showing someone how to do something on their phone.
