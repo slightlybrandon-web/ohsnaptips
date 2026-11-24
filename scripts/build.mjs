@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, ex
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, shortCard, slugify, youtubeId, ytWatch, tipBox, requestBox, TIP_URL, shareBox, embedPage } from './util.js';
+import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, shortCard, slugify, youtubeId, ytWatch, tipBox, requestBox, REQUEST_FORM_URL, TIP_URL, shareBox, embedPage } from './util.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
@@ -246,15 +246,11 @@ for (const c of liveClasses) {
 }
 
 // Request a tip
-const REQ_EMAIL = 'ohsnaptips@gmail.com';
-const reqBody = 'What do you want to learn how to do?\n\n\nWhat device or app is it on? (iPhone, Mac, Canva, Google...)\n\n\nFirst name (optional):\n\nOK to credit you when it is published? (yes/no):\n';
-const reqHref = `mailto:${REQ_EMAIL}?subject=${encodeURIComponent('Tip request')}&body=${encodeURIComponent(reqBody)}`;
 write('request/index.html', page({
   env, origin, path: '/request/', title: 'Request a tip',
   description: 'Stuck on something tech? Tell Oh Snap Tips what you want to learn and it may become the next how-to video and guide.',
   body: pageHead('Request a tip', 'Stuck on something? Tell me what you want to learn how to do. The best requests become a video and a written guide, and I will credit you if you like.') +
-    `<section class="wrap"><div class="tipjar"><p><strong>Send me your request by email.</strong> The button opens your email app with a short template. Fill it in and hit send. Include what you want to do and which device or app it is on.</p><a class="btn btn-sm" href="${reqHref}">&#9993; Request a tip</a></div>
-    <p class="form-alt">No email app opening? Send it to <strong>${REQ_EMAIL}</strong> with the subject "Tip request".</p></section>`,
+    `<section class="wrap"><div class="form-embed"><iframe src="${REQUEST_FORM_URL}?embedded=true" title="Request a tip form" loading="lazy">Loading…</iframe></div><p class="form-alt"><a href="${REQUEST_FORM_URL}" target="_blank" rel="noopener">Form not showing? Open it in a new tab &#8599;</a></p></section>`,
 }));
 
 // 404, sitemap
