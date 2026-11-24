@@ -176,12 +176,12 @@ ${extraHead}
 <body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="${esc(site)} home"><img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136"></a>
-  <nav><a href="/guides/">Guides</a>${env.HAS_SHORTS ? '<a href="/shorties/">shorties</a>' : ''}${env.HAS_CLASSES ? '<a href="/classes/">Classes</a>' : ''}<a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
+  <nav><a href="/guides/">Guides</a>${env.HAS_SHORTS ? '<a href="/shorties/">shorties</a>' : ''}${env.HAS_CLASSES ? '<a href="/classes/">Classes</a>' : ''}<a href="/request/">Request a tip</a><a class="btn btn-sm" href="${esc(yt + (yt.includes('?') ? '&' : '?') + 'sub_confirmation=1')}" target="_blank" rel="noopener">Subscribe</a></nav>
 </div></header>
 <main>${body}</main>
 <footer class="site-footer"><div class="wrap">
   <img src="/img/wordmark.png" alt="${esc(site)}" width="696" height="136">
-  <p>Tech tips &amp; how-tos for business owners. Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · <a href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Tip jar</a> · © ${new Date().getFullYear()}</p>
+  <p>Tech tips &amp; how-tos for business owners. Straight &amp; to the point. · <a href="${esc(yt)}" target="_blank" rel="noopener">YouTube</a> · <a href="/request/">Request a tip</a> · <a href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Tip jar</a> · © ${new Date().getFullYear()}</p>
 </div></footer>
 </body>
 </html>`;
@@ -245,6 +245,8 @@ export function embedPage({ env, origin, title, canonicalPath, body }) {
 }
 
 export const TIP_URL = 'https://buymeacoffee.com/brandonlara';
+export const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdy22Vv8HJb6APx1slAIVebPDteFqyF28LODPZEtUuZjx3uag/viewform';
+export const requestBox = () => `<div class="tipjar"><p><strong>Need a tip we haven't covered?</strong> Tell me what you're stuck on and it might become the next video.</p><a class="btn btn-sm" href="/request/">Request a tip</a></div>`;
 export const tipBox = () => `<div class="tipjar"><p><strong>Was this helpful?</strong> If it saved you time, you can say thanks with a tip. It helps me keep making these.</p><a class="btn btn-sm" href="${TIP_URL}" target="_blank" rel="noopener">&#9749; Leave a tip</a></div>`;
 
 export const html = (body, status = 200, cache = 'public, max-age=60, s-maxage=60') =>

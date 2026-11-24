@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, ex
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, shortCard, slugify, youtubeId, ytWatch, tipBox, TIP_URL, shareBox, embedPage } from './util.js';
+import { page, esc, renderMarkdown, videoEmbed, thumb, fmtDate, guideCard, classCard, shortCard, slugify, youtubeId, ytWatch, tipBox, requestBox, REQUEST_FORM_URL, TIP_URL, shareBox, embedPage } from './util.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, '_site');
@@ -211,7 +211,7 @@ for (const g of live) {
         thumbnailUrl: thumb(g.youtube_id), uploadDate: g.created_at, embedUrl: `https://www.youtube.com/embed/${g.youtube_id}`,
       }).replace(/</g, '\\u003c')}</script>` : '';
   const body = `<article class="wrap prose"><p class="crumbs">${g.short ? '<a href="/shorties/">&larr; All shorties</a>' : '<a href="/guides/">&larr; All guides</a>'}</p>${g.short ? '<span class="badge">shorty</span>' : ''}<h1>${esc(g.title)}</h1>
-    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title, g.short) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}${shareBox({ url: `${origin}/guide/${g.slug}/`, embedUrl: `${origin}/embed/guide/${g.slug}/`, title: g.title, noun: g.short ? 'shorty' : 'guide' })}${tipBox()}</article>
+    <p class="meta">${fmtDate(g.created_at)}</p>${g.youtube_id ? videoEmbed(g.youtube_id, g.title, g.short) + `<p class="watch-yt"><a href="${ytWatch(g.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(g.body)}${shareBox({ url: `${origin}/guide/${g.slug}/`, embedUrl: `${origin}/embed/guide/${g.slug}/`, title: g.title, noun: g.short ? 'shorty' : 'guide' })}${tipBox()}${requestBox()}</article>
     ${more.length ? `<section class="wrap"><h2 class="section-title">${g.short ? 'More shorties' : 'More guides'}</h2><div class="grid${g.short ? ' grid-shorts' : ''}">${more.map(g.short ? shortCard : guideCard).join('')}</div></section>` : ''}`;
   write(`guide/${g.slug}/index.html`, page({
     env, origin, path: `/guide/${g.slug}/`, title: g.title, description: g.summary || `${g.title} – step-by-step guide.`,
@@ -233,7 +233,7 @@ for (const c of liveClasses) {
       }).replace(/</g, '\\u003c')}</script>` : '';
   const body = `<article class="wrap prose"><p class="crumbs"><a href="/classes/">&larr; All classes</a></p>
     <span class="badge">Class${c.length ? ' · ' + esc(c.length) : ''}</span><h1>${esc(c.title)}</h1>
-    <p class="meta">${fmtDate(c.created_at)}</p>${c.youtube_id ? videoEmbed(c.youtube_id, c.title) + `<p class="watch-yt"><a href="${ytWatch(c.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(c.body)}${shareBox({ url: `${origin}/class/${c.slug}/`, embedUrl: `${origin}/embed/class/${c.slug}/`, title: c.title, noun: 'class' })}${tipBox()}</article>
+    <p class="meta">${fmtDate(c.created_at)}</p>${c.youtube_id ? videoEmbed(c.youtube_id, c.title) + `<p class="watch-yt"><a href="${ytWatch(c.youtube_id)}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>` : ''}${renderMarkdown(c.body)}${shareBox({ url: `${origin}/class/${c.slug}/`, embedUrl: `${origin}/embed/class/${c.slug}/`, title: c.title, noun: 'class' })}${tipBox()}${requestBox()}</article>
     ${more.length ? `<section class="wrap"><h2 class="section-title">More classes</h2><div class="grid">${more.map(classCard).join('')}</div></section>` : ''}`;
   write(`class/${c.slug}/index.html`, page({
     env, origin, path: `/class/${c.slug}/`, title: c.title, description: c.summary || `${c.title} – full class.`,
@@ -245,10 +245,18 @@ for (const c of liveClasses) {
   }));
 }
 
+// Request a tip
+write('request/index.html', page({
+  env, origin, path: '/request/', title: 'Request a tip',
+  description: 'Stuck on something tech? Tell Oh Snap Tips what you want to learn and it may become the next how-to video and guide.',
+  body: pageHead('Request a tip', 'Stuck on something? Tell me what you want to learn how to do. The best requests become a video and a written guide, and I will credit you if you like.') +
+    `<section class="wrap"><div class="form-embed"><iframe src="${REQUEST_FORM_URL}?embedded=true" title="Request a tip form" loading="lazy">Loading…</iframe></div><p class="form-alt"><a href="${REQUEST_FORM_URL}" target="_blank" rel="noopener">Form not showing? Open it in a new tab &#8599;</a></p></section>`,
+}));
+
 // 404, sitemap
 write('404.html', page({ env, origin, path: '/404.html', title: 'Page not found',
   body: '<div class="wrap prose"><h1>Page not found</h1><p><a href="/">Back to the home page</a> · <a href="/guides/">All guides</a></p></div>' }));
-write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url><url><loc>${origin}/browse/</loc></url><url><loc>${origin}/guides/</loc></url>${liveClasses.length ? `<url><loc>${origin}/classes/</loc></url>` : ''}${liveShorts.length ? `<url><loc>${origin}/shorties/</loc></url>` : ''}${
+write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url><url><loc>${origin}/browse/</loc></url><url><loc>${origin}/guides/</loc></url><url><loc>${origin}/request/</loc></url>${liveClasses.length ? `<url><loc>${origin}/classes/</loc></url>` : ''}${liveShorts.length ? `<url><loc>${origin}/shorties/</loc></url>` : ''}${
   live.map((g) => `<url><loc>${esc(origin)}/guide/${esc(g.slug)}/</loc><lastmod>${g.created_at.slice(0, 10)}</lastmod></url>`).join('')}${
   liveClasses.map((c) => `<url><loc>${esc(origin)}/class/${esc(c.slug)}/</loc><lastmod>${c.created_at.slice(0, 10)}</lastmod></url>`).join('')}</urlset>`);
 write('.nojekyll', '');
