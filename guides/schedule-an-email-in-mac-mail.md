@@ -12,13 +12,13 @@ Want your email to land at 8am instead of 11pm? Mac Mail can send it later for y
 ## Schedule an email
 
 1. Open **Mail** and start a **New Message**.
-2. Write your email like normal.
-3. Click the **Send Later** icon in the toolbar at the top of the message, just left of the blue **Send** button.
-4. Pick **Send 5:00 PM Tonight** or **Send 8:00 AM Tomorrow**, or choose **Send Later** to set your own date and time.
-5. If you chose your own time, click **Schedule**.
+2. Add who it's **to** and **from**, a **subject line**, and your message.
+3. At the top of the message, click the button with an **arrow and a little timer**, then let the menu drop down.
+4. Choose **Send Now**, **Send Tonight**, or **Send Tomorrow at 8:00 AM**, or pick a custom time.
+5. For a custom time, drag the clock or type in the date and time you want, then click **Schedule**.
 
 ## Find or change a scheduled email
 
-Your scheduled emails wait in the **Send Later** mailbox in the Mail sidebar. Open one there to edit it or cancel it.
+Your scheduled emails wait in the **Send Later** mailbox in the Mail sidebar. Click **Edit** to change the time, or cancel the send.
 
 > **Pro tip:** The email sends from your Mac, so keep it on and connected to the internet at the send time.
